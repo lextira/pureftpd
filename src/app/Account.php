@@ -12,6 +12,6 @@ class Account extends Model
      * @var array
      */
     protected $fillable = [
-        'domain_id', 'name', 'login', 'password', 'status', 'relative_dir', 'absolute_dir',
+        'domain_id', 'name', 'password', 'status', 'relative_dir',
     ];
 }
