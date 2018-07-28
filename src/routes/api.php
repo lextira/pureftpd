@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group(['prefix' => 'v1'], function() {
+Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {
     Route::get('/domains', 'DomainController@index')->name('domain.index');
 
     Route::resource('accounts', 'AccountController');

@@ -43,6 +43,7 @@ return [
 
         'api' => [
             'driver' => 'bearer-token',
+            'provider' => 'keys'
         ],
     ],
 
@@ -67,6 +68,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+
+        'keys' => [
+            'driver' => 'eloquent',
+            'model' => App\Key::class,
         ],
 
         // 'users' => [

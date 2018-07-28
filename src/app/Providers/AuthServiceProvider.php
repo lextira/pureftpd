@@ -28,10 +28,11 @@ class AuthServiceProvider extends ServiceProvider
 
         Auth::viaRequest('bearer-token', function($request){
             // remove "Bearer " from start
-            $token = substr($request->header('Authorization'), 4);
+            $token = substr($request->header('Authorization'), 7);
             // get the key
-            return Key::where('token', $token);
+            return Key::where('token', $token)->first();
         });
+
         //
     }
 }
