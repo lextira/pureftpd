@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Gate;
+use App\Key;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -25,6 +26,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Auth::viaRequest('bearer-token', function($request){
+            // remove "Bearer " from start
+            $token = substr($request->header('Authorization'), 4);
+            // get the key
+            return Key::where('token', $token);
+        });
         //
     }
 }

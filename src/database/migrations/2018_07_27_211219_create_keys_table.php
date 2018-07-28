@@ -16,7 +16,7 @@ class CreateKeysTable extends Migration
         Schema::create('keys', function (Blueprint $table) {
             $table->increments('id');
             $table->foreign('domain_id')->references('id')->on('domains');
-            $table->string('key')->unique();
+            $table->string('token')->unique();
             $table->string('description')->nullable();
             $table->timestamps();
         });

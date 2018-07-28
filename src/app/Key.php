@@ -13,7 +13,7 @@ class Key extends Model
      */
     protected $fillable = [
         'domain_id',
-        'key',
+        'token',
         'name',
     ];
 
