@@ -15,10 +15,12 @@ class CreateKeysTable extends Migration
     {
         Schema::create('keys', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreign('domain_id')->references('id')->on('domains');
+            $table->unsignedInteger('domain_id');
             $table->string('token')->unique();
             $table->string('description')->nullable();
             $table->timestamps();
+
+            $table->foreign('domain_id')->references('id')->on('domains')->onDelete('cascade');
         });
     }
 

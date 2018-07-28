@@ -15,7 +15,7 @@ class CreateAccountsTable extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreign('domain_id')->references('id')->on('domains');
+            $table->unsignedInteger('domain_id');
             $table->string('name');
             $table->string('relative_dir');
             $table->string('login')->unique();
@@ -23,6 +23,8 @@ class CreateAccountsTable extends Migration
             $table->boolean('status');
             $table->string('absolute_dir');
             $table->timestamps();
+
+            $table->foreign('domain_id')->references('id')->on('domains')->onDelete('cascade');
         });
     }
 
