@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Controllers\AccountController;
 use Illuminate\Database\Eloquent\Model;
 
 class Domain extends Model
@@ -15,6 +16,15 @@ class Domain extends Model
         'name',
     ];
 
+    public function accounts()
+    {
+        $this->hasMany(Account::class);
+    }
+
+    public function keys()
+    {
+        $this->hasMany(Key::class);
+    }
 
     public function getBaseDirectory()
     {

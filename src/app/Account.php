@@ -12,8 +12,17 @@ class Account extends Model
      * @var array
      */
     protected $fillable = [
-        'domain_id', 'name', 'password', 'status', 'relative_dir',
+        'domain_id',
+        'name',
+        'password',
+        'status',
+        'relative_dir',
     ];
+
+    public function domain()
+    {
+        $this->belongsTo(Domain::class);
+    }
 
     /**
      * This function is called by App\Observers\AccountObserver
