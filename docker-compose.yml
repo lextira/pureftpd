@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  api:
+    image: webdevops/php-nginx:alpine-php7
+    restart: "no"
+    depends_on:
+      - mysql
+    volumes:
+      - $PWD/src:/var/www
+    environment:
+      - WEB_DOCUMENT_ROOT=/var/www/public
+      - WEB_DOCUMENT_INDEX=index.php
+      - WEB_ALIAS_DOMAIN=localhost
+    ports:
+      - 80:80
+    networks:
+      - pureftpd
+
+  mysql:
+    image: mariadb:10.3
+    restart: "no"
+#    volumes:
+#      - $PWD/mysql-data:/var/lib/mysql
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=pureftpd
+      - MYSQL_USER=pure
+      - MYSQL_PASSWORD=pure
+    networks:
+      - pureftpd
+
+
+networks:
+  pureftpd:
