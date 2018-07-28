@@ -19,7 +19,7 @@ class FtpDomainRmCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Add a new domain.';
+    protected $description = 'Remove a new domain.';
 
     /**
      * @var Domain
