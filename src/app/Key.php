@@ -14,7 +14,7 @@ class Key extends Model
     protected $fillable = [
         'domain_id',
         'token',
-        'name',
+        'description',
     ];
 
     public function domain()
