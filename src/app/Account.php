@@ -13,10 +13,11 @@ class Account extends Model
      */
     protected $fillable = [
         'domain_id',
-        'name',
+        'login',
         'password',
         'status',
         'relative_dir',
+        'description'
     ];
 
     /**
@@ -33,9 +34,24 @@ class Account extends Model
         return $this->belongsTo(Domain::class);
     }
 
+    protected function setLoginAttribute()
+    {
+        $domain_separator = config('ftp.domain_separator');
+
+        return
+            $this->name .
+            $domain_separator .
+            $this->domain->name;
+    }
+
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = md5($password);
+    }
+
+    public function setHashedPasswordAttribute($hashed_password)
+    {
+        $this->attributes['password'] = md5($hashed_password);
     }
 
     /**
@@ -46,18 +62,7 @@ class Account extends Model
      */
     public function setGeneratedFields()
     {
-        $this->login = $this->generateLogin();
         $this->absolute_dir = $this->generateAbsoluteDir();
-    }
-
-    protected function generateLogin()
-    {
-        $domain_separator = config('ftp.domain_separator');
-
-        return
-            $this->name .
-            $domain_separator .
-            $this->domain->name;
     }
 
     protected function generateAbsoluteDir()
