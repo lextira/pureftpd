@@ -11,6 +11,9 @@ up
 down
     start the applications
 
+bash {service}
+    start bash of container
+
 exec {service} {command}
     execute command in service
 	";
@@ -29,9 +32,14 @@ down() {
 } # => down()
 
 
-dc_exec() {
+exec_bash() {
 	# command exec:
-	docker-compose exec $2 $3
+	docker-compose exec $1 /bin/bash;
+} # => exec_bash()
+
+exec_command() {
+	# command exec:
+	docker-compose exec -d $1 $2;
 } # => exec_bash()
 
 # get command name
@@ -46,8 +54,12 @@ case "$cmd" in
     down)
 		 down "$@"
 		;;
+    bash)
+		 exec_bash "$@"
+		;;
+
     exec)
-		 dc_exec "$@"
+		 exec_command "$@"
 		;;
 	""|help|-h|--help|--usage)
 		usage "$1"
