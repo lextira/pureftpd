@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class FtpUserListCommand extends Command
+class FtpAccountListCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -18,7 +18,7 @@ class FtpUserListCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'List existing users of a domain.';
 
     /**
      * Create a new command instance.

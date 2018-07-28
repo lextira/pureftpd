@@ -2,6 +2,10 @@
 
 namespace App\Console;
 
+use App\Console\Commands\FtpAccountAddCommand;
+use App\Console\Commands\FtpAccountChangeCommand;
+use App\Console\Commands\FtpAccountListCommand;
+use App\Console\Commands\FtpAccountRmCommand;
 use App\Console\Commands\FtpDomainAddCommand;
 use App\Console\Commands\FtpDomainListCommand;
 use App\Console\Commands\FtpDomainRmCommand;
@@ -9,9 +13,6 @@ use App\Console\Commands\FtpKeyGenerateCommand;
 use App\Console\Commands\FtpKeyAddCommand;
 use App\Console\Commands\FtpKeyListCommand;
 use App\Console\Commands\FtpKeyRmCommand;
-use App\Console\Commands\FtpUserAddCommand;
-use App\Console\Commands\FtpUserListCommand;
-use App\Console\Commands\FtpUserRmCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -32,9 +33,10 @@ class Kernel extends ConsoleKernel
         FtpKeyListCommand::class,
         FtpKeyRmCommand::class,
 
-        FtpUserAddCommand::class,
-        FtpUserListCommand::class,
-        FtpUserRmCommand::class,
+        FtpAccountAddCommand::class,
+        FtpAccountListCommand::class,
+        FtpAccountChangeCommand::class,
+        FtpAccountRmCommand::class
     ];
 
     /**
