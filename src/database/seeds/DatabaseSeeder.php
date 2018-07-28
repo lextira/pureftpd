@@ -12,17 +12,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('domain')->insert([
+        \App\Domain::create([
             'name' => 'default',
         ]);
 
-        DB::table('key')->insert([
+        \App\Key::create([
             'domain_id' => 1,
-            'key' => str_random(64),
-            'comment' => 'Example key'
+            'token' => str_random(64),
+            'description' => 'Example key'
         ]);
 
-        DB::table('account')->insert([
+        \App\Account::create([
             'domain_id' => 1,
             'name' => 'example',
             'password' => 'secret',
