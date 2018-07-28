@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Key;
 use Illuminate\Console\Command;
 
 class FtpKeyRmCommand extends Command
@@ -11,23 +12,28 @@ class FtpKeyRmCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'ftp:key:rm {token}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Remove a key.';
+
+    protected $key;
 
     /**
      * Create a new command instance.
      *
+     * @param $key
      * @return void
      */
-    public function __construct()
+    public function __construct(Key $key)
     {
         parent::__construct();
+
+        $this->key = $key;
     }
 
     /**
@@ -37,6 +43,13 @@ class FtpKeyRmCommand extends Command
      */
     public function handle()
     {
-        //
+        if ( !$this->key->where('token', $this->argument('token'))->exists() ) {
+            $this->error('There\'s no key with this token.');
+            return false;
+        }
+
+        $this->key->where('token', $this->argument('token'))->delete();
+
+        $this->info ('Key deleted.');
     }
 }
