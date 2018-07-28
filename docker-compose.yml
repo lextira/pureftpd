@@ -4,6 +4,7 @@ services:
   api:
     image: webdevops/php-nginx:alpine-php7
     restart: "no"
+    working_dir: /var/www
     depends_on:
       - mysql
     volumes:
