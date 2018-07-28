@@ -18,12 +18,12 @@ class Domain extends Model
 
     public function accounts()
     {
-        $this->hasMany(Account::class);
+        return $this->hasMany(Account::class);
     }
 
     public function keys()
     {
-        $this->hasMany(Key::class);
+        return $this->hasMany(Key::class);
     }
 
     public function getBaseDirectory()

@@ -30,7 +30,7 @@ class Account extends Model
 
     public function domain()
     {
-        $this->belongsTo(Domain::class);
+        return $this->belongsTo(Domain::class);
     }
 
     public function setPasswordAttribute($password)

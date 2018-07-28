@@ -19,7 +19,7 @@ class Key extends Model
 
     public function domain()
     {
-        $this->belongsTo(Domain::class);
+        return $this->belongsTo(Domain::class);
     }
 
 }
