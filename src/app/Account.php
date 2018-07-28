@@ -19,9 +19,23 @@ class Account extends Model
         'relative_dir',
     ];
 
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'password', 'absolute_dir'
+    ];
+
     public function domain()
     {
         $this->belongsTo(Domain::class);
+    }
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = md5($password);
     }
 
     /**
