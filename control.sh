@@ -26,9 +26,9 @@ up() {
 } # => up()
 
 
-down() {
+stop() {
 	# command down:
-	docker-compose down
+	docker-compose stop
 } # => down()
 
 
@@ -51,8 +51,8 @@ case "$cmd" in
 	up)
 		 up "$@"
 		;;
-    down)
-		 down "$@"
+    stop)
+		 stop "$@"
 		;;
     bash)
 		 exec_bash "$@"
