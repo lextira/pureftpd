@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Account;
+use App\Domain;
 use Illuminate\Console\Command;
 
 class FtpAccountListCommand extends Command
@@ -11,23 +13,31 @@ class FtpAccountListCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'ftp:account:list {domain}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'List existing users of a domain.';
+    protected $description = 'List existing accounts of a domain.';
+
+    protected $account;
+    protected $domain;
 
     /**
      * Create a new command instance.
      *
+     * @param $account
+     * @param $domain
      * @return void
      */
-    public function __construct()
+    public function __construct(Account $account, Domain $domain)
     {
         parent::__construct();
+
+        $this->account = $account;
+        $this->domain = $domain;
     }
 
     /**
@@ -37,6 +47,22 @@ class FtpAccountListCommand extends Command
      */
     public function handle()
     {
-        //
+        $columns = ['id', 'created_at', 'updated_at', 'login', 'status', 'relative_dir', 'description'];
+
+        $domain = $this->domain->where('name', $this->argument('domain'))->first();
+
+        if ($domain == null) {
+            $this->error('Domain not found.');
+            return false;
+        }
+
+        $accounts = $domain->accounts->transform(function ($item) use ($columns) {
+            return $item->only($columns);
+        });
+
+        $this->table(
+            $columns,
+            $accounts->toArray()
+        );
     }
 }

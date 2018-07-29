@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Account;
+use App\Domain;
 use Illuminate\Console\Command;
 
 class FtpAccountChangeCommand extends Command
@@ -11,7 +13,11 @@ class FtpAccountChangeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ftp:account:change';
+    protected $signature = 'ftp:account:change {login}
+                                                {--dir=/} 
+                                                {--desc=}
+                                                {--pass=secret}
+                                                {--status=1}';
 
     /**
      * The console command description.
@@ -20,14 +26,22 @@ class FtpAccountChangeCommand extends Command
      */
     protected $description = 'Change an existing account.';
 
+    protected $account;
+    protected $domain;
+
     /**
      * Create a new command instance.
      *
+     * @param $account
+     * @param $domain
      * @return void
      */
-    public function __construct()
+    public function __construct(Account $account, Domain $domain)
     {
         parent::__construct();
+
+        $this->account = $account;
+        $this->domain = $domain;
     }
 
     /**
@@ -37,6 +51,19 @@ class FtpAccountChangeCommand extends Command
      */
     public function handle()
     {
-        //
+        $account = $this->account->where('login', $this->argument('login'))->first();
+
+        if ($account == null) {
+            $this->error('Account not found.');
+
+            return false;
+        }
+
+        $account->fill([
+            'password' => $this->option('pass'),
+            'status' => $this->option('status'),
+            'relative_dir' => $this->option('dir'),
+            'description' => $this->option('desc'),
+        ])->save();
     }
 }
