@@ -17,7 +17,7 @@ class CreateAccountsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('domain_id');
             $table->string('relative_dir');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('login')->unique();
             $table->string('password');
             $table->boolean('status');

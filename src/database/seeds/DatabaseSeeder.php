@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
 
         \App\Account::create([
             'domain_id' => 1,
-            'name' => 'example',
+            'login' => 'example',
             'password' => 'secret',
             'status' => 1,
             'relative_dir' => 'example_dir',

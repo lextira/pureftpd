@@ -34,12 +34,12 @@ class Account extends Model
         return $this->belongsTo(Domain::class);
     }
 
-    protected function setLoginAttribute()
+    protected function setLoginAttribute($name)
     {
         $domain_separator = config('ftp.domain_separator');
 
-        return
-            $this->name .
+        $this->attributes['login'] =
+            $name .
             $domain_separator .
             $this->domain->name;
     }
