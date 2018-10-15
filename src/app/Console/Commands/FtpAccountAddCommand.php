@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Account;
-use App\Domain;
+use App\Data\Models\Account;
+use App\Data\Models\Domain;
 use Illuminate\Console\Command;
 
 class FtpAccountAddCommand extends Command

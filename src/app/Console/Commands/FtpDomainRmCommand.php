@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Domain;
+use App\Data\Models\Domain;
 use Illuminate\Console\Command;
 
 class FtpDomainRmCommand extends Command

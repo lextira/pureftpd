@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Key;
+use App\Data\Models\Key;
 use Illuminate\Console\Command;
 
 class FtpKeyRmCommand extends Command

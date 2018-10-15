@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Features\ListDomainsFeature;
 
 class DomainController extends Controller
 {
@@ -13,6 +13,6 @@ class DomainController extends Controller
      */
     public function index()
     {
-        return 'domain.index';
+        return $this->serve(ListDomainsFeature::class);
     }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Key;
-use Illuminate\Http\Request;
+use App\Features\CreateAccountFeature;
+use App\Features\DeleteAccountFeature;
+use App\Features\ListAccountsFeature;
+use App\Features\ShowAccountFeature;
+use App\Features\UpdateAccountFeature;
 
 class AccountController extends Controller
 {
@@ -14,51 +17,46 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return 'account.index';
+        return $this->serve(ListAccountsFeature::class);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store()
     {
-        return 'account.store';
+        return $this->serve(CreateAccountFeature::class);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
-        return 'account.show';
+        return $this->serve(ShowAccountFeature::class);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update()
     {
-        return 'account.update';
+        return $this->serve(UpdateAccountFeature::class);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy()
     {
-        return 'account.destroy';
+        return $this->serve(DeleteAccountFeature::class);
     }
 }

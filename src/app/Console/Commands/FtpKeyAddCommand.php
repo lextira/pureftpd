@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Domain;
-use App\Key;
+use App\Data\Models\Domain;
+use App\Data\Models\Key;
 use Illuminate\Console\Command;
 
 class FtpKeyAddCommand extends Command

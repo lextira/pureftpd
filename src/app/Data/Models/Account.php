@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Data\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -73,6 +73,4 @@ class Account extends Model
             $base_dir .
             $this->relative_dir;
     }
-
-
 }

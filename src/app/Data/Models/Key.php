@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Data\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,5 +21,4 @@ class Key extends Model
     {
         return $this->belongsTo(Domain::class);
     }
-
 }
