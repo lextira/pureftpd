@@ -51,7 +51,7 @@ class Account extends Model
 
     public function setHashedPasswordAttribute($hashed_password)
     {
-        $this->attributes['password'] = md5($hashed_password);
+        $this->attributes['password'] = $hashed_password;
     }
 
     /**
