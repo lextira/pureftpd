@@ -28,6 +28,9 @@ services:
       - MYSQL_DATABASE=pureftpd
       - MYSQL_USER=pure
       - MYSQL_PASSWORD=pure
+# only allow exposed port for debug!
+    ports:
+      - 3306:3306
     networks:
       - pureftpd
 
