@@ -34,6 +34,19 @@ services:
     networks:
       - pureftpd
 
+  ftp:
+    build: ./ftp
+    restart: "no"
+    depends_on:
+      - mysql
+    volumes:
+      - $PWD/ftp/config:/etc/pureftpd
+#      - /var/ftp-data:/var/ftp-data
+    ports:
+      - 20-21:20-21
+      - 30000-30999:30000-30999
+    networks:
+      - pureftpd
 
 networks:
   pureftpd:
