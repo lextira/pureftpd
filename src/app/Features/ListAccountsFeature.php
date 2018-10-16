@@ -4,14 +4,16 @@ namespace App\Features;
 use App\Domains\Account\Jobs\GetAccountsJob;
 use App\Domains\Account\Jobs\GetDomainIDJob;
 use App\Domains\Http\Jobs\RespondWithJsonJob;
+use Illuminate\Http\Request;
 use Lucid\Foundation\Feature;
 
 class ListAccountsFeature extends Feature
 {
-    public function handle()
+    public function handle(Request $request)
     {
         $domainID = $this->run(GetDomainIDJob::class);
-        $accounts = $this->run(GetAccountsJob::class, ['domainID' => $domainID]);
+        $params = ['domainID' => $domainID, 'paginate' => $request->input('paginate', true)];
+        $accounts = $this->run(GetAccountsJob::class, $params);
 
         return $this->run(new RespondWithJsonJob($accounts));
     }

@@ -1,6 +1,7 @@
 <?php
 namespace App\Domains\Account\Jobs;
 
+use Illuminate\Http\Request;
 use Lucid\Foundation\Job;
 
 class GetDomainIDJob extends Job
@@ -20,11 +21,13 @@ class GetDomainIDJob extends Job
      *
      * @return void
      */
-    public function handle()
+    public function handle(Request $request)
     {
         $domainID = null;
         if (auth()->check() && isset(auth()->user()->domain_id)) {
             $domainID = auth()->user()->domain_id;
+        } else {
+            $domainID = $request->input('domain_id');
         }
 
         return $domainID;
