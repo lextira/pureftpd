@@ -2,12 +2,19 @@
 
 namespace App\Console\Commands;
 
-use App\Data\Models\Account;
 use App\Data\Models\Domain;
+use App\Data\Repositories\Interfaces\DomainRepository;
+use App\Features\CreateAccountFeature;
 use Illuminate\Console\Command;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Lucid\Foundation\ServesFeaturesTrait;
 
 class FtpAccountAddCommand extends Command
 {
+    use ServesFeaturesTrait;
+
     /**
      * The name and signature of the console command.
      *
@@ -26,7 +33,6 @@ class FtpAccountAddCommand extends Command
      */
     protected $description = 'Add a new account.';
 
-    protected $account;
     protected $domain;
 
     /**
@@ -36,11 +42,10 @@ class FtpAccountAddCommand extends Command
      * @param $domain
      * @return void
      */
-    public function __construct(Account $account, Domain $domain)
+    public function __construct(Domain $domain)
     {
         parent::__construct();
 
-        $this->account = $account;
         $this->domain = $domain;
     }
 
@@ -49,30 +54,28 @@ class FtpAccountAddCommand extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(Request $request, DomainRepository $domainRepository)
     {
-        $domain = $this->domain->where('name', $this->argument('domain'))->first();
+        try {
+            $domain = $domainRepository->findByField('name', $this->argument('domain'))->first();
 
-        if ($domain == null) {
-            $this->error('Domain not found.');
-            return false;
+            $request->replace([
+                'domain_id' => $domain->id,
+                'login' => $this->argument('login'),
+                'password' => $this->option('pass'),
+                'status' => $this->option('status'),
+                'relative_dir' => $this->option('dir'),
+                'description' => $this->option('desc'),
+            ]);
+            $account = $this->serve(CreateAccountFeature::class)->getData()->data;
+            $this->info('Account #' . $account->id . ' ' . $account->login . ' added.');
+        } catch (ValidationException $e) {
+            $this->error($e->getMessage());
+            foreach ($e->errors() as $field => $errors) {
+                $this->error($field . ': ' . implode(' ', $errors));
+            }
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
         }
-
-        $account = $this->account->fill([
-            'domain_id' => $domain->id,
-            'login' => $this->argument('login'),
-            'password' => $this->option('pass'),
-            'status' => $this->option('status'),
-            'relative_dir' => $this->option('dir'),
-            'description' => $this->option('desc'),
-        ]);
-
-        if ( $this->account->where('login', $account->login)->exists() ) {
-            $this->error('Account already exists.');
-            return false;
-        }
-
-        $account->save();
-        $this->info ('Account added.');
     }
 }

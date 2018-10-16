@@ -12,7 +12,9 @@ class CreateAccountFeature extends Feature
     public function handle(Request $request)
     {
         $domainID = $this->run(GetDomainIDJob::class);
-        $request->merge(['domain_id' => $domainID]);
+        if ($domainID) {
+            $request->merge(['domain_id' => $domainID]);
+        }
         $account = $this->run(CreateAccountJob::class);
 
         return $this->run(new RespondWithJsonJob($account));

@@ -36,7 +36,7 @@ class CreateAccountRequest extends FormRequest
             'hashed_password' => 'required_without:password|max:255',
             'status' => 'integer',
             'relative_dir' => 'required|max:255',
-            'description' => 'required|max:255',
+            'description' => 'max:255',
         ];
     }
 }
