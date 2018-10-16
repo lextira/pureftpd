@@ -12,7 +12,9 @@ class UpdateAccountFeature extends Feature
     public function handle(Request $request)
     {
         $domainID = $this->run(GetDomainIDJob::class);
-        $request->merge(['domain_id' => $domainID]);
+        if ($domainID) {
+            $request->merge(['domain_id' => $domainID]);
+        }
         $account = $this->run(UpdateAccountJob::class, ['domainID' => $domainID]);
 
         return $this->run(new RespondWithJsonJob($account));

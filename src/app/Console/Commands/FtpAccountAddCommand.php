@@ -2,16 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Data\Models\Domain;
 use App\Data\Repositories\Interfaces\DomainRepository;
 use App\Features\CreateAccountFeature;
-use Illuminate\Console\Command;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Lucid\Foundation\ServesFeaturesTrait;
 
-class FtpAccountAddCommand extends Command
+class FtpAccountAddCommand extends BaseCommand
 {
     use ServesFeaturesTrait;
 
@@ -66,10 +63,7 @@ class FtpAccountAddCommand extends Command
             $account = $this->serve(CreateAccountFeature::class)->getData()->data;
             $this->info('Account #' . $account->id . ' ' . $account->login . ' added.');
         } catch (ValidationException $e) {
-            $this->error($e->getMessage());
-            foreach ($e->errors() as $field => $errors) {
-                $this->error($field . ': ' . implode(' ', $errors));
-            }
+            $this->handleValidationError($e);
         } catch (\Exception $e) {
             $this->error($e->getMessage());
         }
