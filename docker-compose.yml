@@ -3,26 +3,46 @@ version: '3.4'
 services:
   api:
     image: webdevops/php-nginx:alpine-php7
-    restart: "no"
+    restart: ${SERVICES_RESTART}
     working_dir: /var/www
     depends_on:
       - mysql
     volumes:
-      - $PWD/src:/var/www
+      - ${SOURCE_DIR}/src:/var/www
     environment:
       - WEB_DOCUMENT_ROOT=/var/www/public
       - WEB_DOCUMENT_INDEX=index.php
       - WEB_ALIAS_DOMAIN=localhost
     ports:
       - 80:80
+      - 443:443
     networks:
       - pureftpd
 
+  ftp:
+    build: ftp/.
+    restart: ${SERVICES_RESTART}
+    depends_on:
+      - mysql
+    environment:
+      - LOCAL_CERT=true
+      - CHANGE=8
+    volumes:
+      - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
+#      - /etc/pureftp-api/ssl/:/etc/ssl/private/
+#      - /var/ftp-data:/var/ftp-data
+    ports:
+      - 20-21:20-21
+      - 30000-30099:30000-30099
+    networks:
+      - pureftpd
+
+
   mysql:
     image: mariadb:10.3
-    restart: "no"
-#    volumes:
-#      - $PWD/mysql-data:/var/lib/mysql
+    restart: ${SERVICES_RESTART}
+    volumes:
+      - ${DB_DIR}:/var/lib/mysql
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=pureftpd
@@ -31,20 +51,6 @@ services:
 # only allow exposed port for debug!
     ports:
       - 3306:3306
-    networks:
-      - pureftpd
-
-  ftp:
-    build: ./ftp
-    restart: "no"
-    depends_on:
-      - mysql
-    volumes:
-      - $PWD/ftp/config:/etc/pureftpd
-#      - /var/ftp-data:/var/ftp-data
-    ports:
-      - 20-21:20-21
-      - 30000-30999:30000-30999
     networks:
       - pureftpd
 
