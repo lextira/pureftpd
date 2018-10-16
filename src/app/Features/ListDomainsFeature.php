@@ -1,16 +1,17 @@
 <?php
 namespace App\Features;
 
+use App\Domains\Account\Jobs\GetDomainIDJob;
 use App\Domains\Domain\Jobs\GetDomainsJob;
 use App\Domains\Http\Jobs\RespondWithJsonJob;
 use Lucid\Foundation\Feature;
-use Illuminate\Http\Request;
 
 class ListDomainsFeature extends Feature
 {
-    public function handle(Request $request)
+    public function handle()
     {
-        $domains = $this->run(GetDomainsJob::class);
+        $domainID = $this->run(GetDomainIDJob::class);
+        $domains = $this->run(GetDomainsJob::class, ['domainID' => $domainID]);
 
         return $this->run(new RespondWithJsonJob($domains));
     }

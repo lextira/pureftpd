@@ -2,6 +2,7 @@
 namespace App\Features;
 
 use App\Domains\Account\Jobs\GetAccountJob;
+use App\Domains\Account\Jobs\GetDomainIDJob;
 use App\Domains\Http\Jobs\RespondWithJsonJob;
 use Lucid\Foundation\Feature;
 
@@ -9,7 +10,8 @@ class ShowAccountFeature extends Feature
 {
     public function handle()
     {
-        $account = $this->run(GetAccountJob::class);
+        $domainID = $this->run(GetDomainIDJob::class);
+        $account = $this->run(GetAccountJob::class, ['domainID' => $domainID]);
 
         return $this->run(new RespondWithJsonJob($account));
     }

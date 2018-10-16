@@ -2,7 +2,6 @@
 
 namespace App\Data\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Data\Repositories\Interfaces\DomainRepository;
 use App\Data\Models\Domain;
@@ -12,7 +11,7 @@ use App\Data\Models\Domain;
  *
  * @package namespace App\Data\Repositories;
  */
-class DomainRepositoryEloquent extends BaseRepository implements DomainRepository
+class DomainRepositoryEloquent extends BaseRepositoryEloquent implements DomainRepository
 {
     /**
      * Specify Model class name

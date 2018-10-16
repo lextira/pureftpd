@@ -2,7 +2,6 @@
 
 namespace App\Data\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Data\Repositories\Interfaces\KeyRepository;
 use App\Data\Models\Key;
@@ -12,7 +11,7 @@ use App\Data\Models\Key;
  *
  * @package namespace App\Data\Repositories;
  */
-class KeyRepositoryEloquent extends BaseRepository implements KeyRepository
+class KeyRepositoryEloquent extends BaseRepositoryEloquent implements KeyRepository
 {
     /**
      * Specify Model class name

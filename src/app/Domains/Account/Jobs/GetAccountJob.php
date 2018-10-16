@@ -1,20 +1,23 @@
 <?php
 namespace App\Domains\Account\Jobs;
 
+use App\Data\Criteria\DomainIDCriteria;
 use App\Data\Repositories\Interfaces\AccountRepository;
 use Illuminate\Http\Request;
 use Lucid\Foundation\Job;
 
 class GetAccountJob extends Job
 {
+    protected $domainID;
+
     /**
      * Create a new job instance.
      *
-     * @return void
+     * @param integer $domainID
      */
-    public function __construct()
+    public function __construct($domainID=null)
     {
-        //
+        $this->domainID = $domainID;
     }
 
     /**
@@ -26,6 +29,9 @@ class GetAccountJob extends Job
      */
     public function handle(Request $request, AccountRepository $accountRepository)
     {
+        if ($this->domainID) {
+            $accountRepository->pushCriteria(new DomainIDCriteria($this->domainID));
+        }
         return $accountRepository->find($request->route('account'));
     }
 }

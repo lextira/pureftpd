@@ -2,7 +2,6 @@
 
 namespace App\Data\Repositories;
 
-use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Data\Repositories\Interfaces\UserRepository;
 use App\Data\Models\User;
@@ -12,7 +11,7 @@ use App\Data\Models\User;
  *
  * @package namespace App\Data\Repositories;
  */
-class UserRepositoryEloquent extends BaseRepository implements UserRepository
+class UserRepositoryEloquent extends BaseRepositoryEloquent implements UserRepository
 {
     /**
      * Specify Model class name
