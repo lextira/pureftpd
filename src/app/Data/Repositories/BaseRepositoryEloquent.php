@@ -2,6 +2,7 @@
 
 namespace App\Data\Repositories;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Events\RepositoryEntityUpdated;
 
@@ -38,5 +39,16 @@ abstract class BaseRepositoryEloquent extends BaseRepository
         $this->resetModel();
 
         return $this->parserResult($model);
+    }
+
+    public function firstByFieldOrFail($field, $value = null, $columns = ['*'])
+    {
+        $result = $this->findByField($field, $value, $columns)->first();
+
+        if (!$result) {
+            throw (new ModelNotFoundException())->setModel(get_class($this->model));
+        }
+
+        return $result;
     }
 }

@@ -50,7 +50,7 @@ class FtpAccountAddCommand extends BaseCommand
     public function handle(Request $request, DomainRepository $domainRepository)
     {
         try {
-            $domain = $domainRepository->findByField('name', $this->argument('domain'))->first();
+            $domain = $domainRepository->firstByFieldOrFail('name', $this->argument('domain'));
 
             $request->replace([
                 'domain_id' => $domain->id,

@@ -55,7 +55,7 @@ class FtpAccountListCommand extends BaseCommand
         $columns = ['id', 'created_at', 'updated_at', 'login', 'status', 'relative_dir', 'description'];
 
         try {
-            $domain = $domainRepository->findByField('name', $this->argument('domain'))->first();
+            $domain = $domainRepository->firstByFieldOrFail('name', $this->argument('domain'));
 
             $request->replace([
                 'domain_id' => $domain->id,

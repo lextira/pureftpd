@@ -52,7 +52,7 @@ class FtpAccountChangeCommand extends BaseCommand
     public function handle(Request $request, AccountRepository $accountRepository)
     {
         try {
-            $account = $accountRepository->findByField('login', $this->argument('login'))->first();
+            $account = $accountRepository->firstByFieldOrFail('login', $this->argument('login'));
 
             $request->replace([
                 'password' => $this->option('pass'),

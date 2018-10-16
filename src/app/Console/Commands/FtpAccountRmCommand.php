@@ -2,12 +2,19 @@
 
 namespace App\Console\Commands;
 
+use App\Console\FakeRoute;
 use App\Data\Models\Account;
 use App\Data\Models\Domain;
+use App\Data\Repositories\Interfaces\AccountRepository;
+use App\Features\DeleteAccountFeature;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
+use Lucid\Foundation\ServesFeaturesTrait;
 
 class FtpAccountRmCommand extends Command
 {
+    use ServesFeaturesTrait;
+
     /**
      * The name and signature of the console command.
      *
@@ -43,17 +50,25 @@ class FtpAccountRmCommand extends Command
     /**
      * Execute the console command.
      *
+     * @param Request $request
+     * @param AccountRepository $accountRepository
      * @return mixed
      */
-    public function handle()
+    public function handle(Request $request, AccountRepository $accountRepository)
     {
-        if ( !$this->account->where('login', $this->argument('login'))->exists() ) {
-            $this->error('There\'s no account with this login.');
-            return false;
+        try {
+            $account = $accountRepository->firstByFieldOrFail('login', $this->argument('login'));
+
+            $request->setRouteResolver(function() use ($account) {
+                return new FakeRoute(['account' => $account->id]);
+            });
+
+            $this->serve(DeleteAccountFeature::class);
+            $this->info('Account #' . $account->id . ' was deleted.');
+        } catch (ValidationException $e) {
+            $this->handleValidationError($e);
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
         }
-
-        $this->account->where('login', $this->argument('login'))->delete();
-
-        $this->info ('Account deleted.');
     }
 }
