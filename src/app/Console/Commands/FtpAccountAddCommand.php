@@ -33,25 +33,21 @@ class FtpAccountAddCommand extends Command
      */
     protected $description = 'Add a new account.';
 
-    protected $domain;
-
     /**
      * Create a new command instance.
      *
-     * @param $account
-     * @param $domain
      * @return void
      */
-    public function __construct(Domain $domain)
+    public function __construct()
     {
         parent::__construct();
-
-        $this->domain = $domain;
     }
 
     /**
      * Execute the console command.
      *
+     * @param Request $request
+     * @param DomainRepository $domainRepository
      * @return mixed
      */
     public function handle(Request $request, DomainRepository $domainRepository)
