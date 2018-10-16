@@ -12,7 +12,11 @@ class ListAccountsFeature extends Feature
     public function handle(Request $request)
     {
         $domainID = $this->run(GetDomainIDJob::class);
-        $params = ['domainID' => $domainID, 'paginate' => $request->input('paginate', true)];
+        $params = [
+            'domainID' => $domainID,
+            'paginate' => $request->input('paginate', true),
+            'columns' => $request->input('columns', ['*']),
+        ];
         $accounts = $this->run(GetAccountsJob::class, $params);
 
         return $this->run(new RespondWithJsonJob($accounts));

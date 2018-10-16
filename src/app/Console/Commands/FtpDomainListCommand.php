@@ -3,10 +3,15 @@
 namespace App\Console\Commands;
 
 use App\Data\Models\Domain;
-use Illuminate\Console\Command;
+use App\Features\ListDomainsFeature;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Lucid\Foundation\ServesFeaturesTrait;
 
-class FtpDomainListCommand extends Command
+class FtpDomainListCommand extends BaseCommand
 {
+    use ServesFeaturesTrait;
+
     /**
      * The name and signature of the console command.
      *
@@ -44,13 +49,26 @@ class FtpDomainListCommand extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(Request $request)
     {
         $columns = ['id', 'name', 'created_at'];
 
-        $this->table(
-            $columns,
-            $this->domain->all($columns)->toArray()
-        );
+        try {
+            $request->replace([
+                'paginate' => false,
+                'columns' => $columns,
+            ]);
+
+            $accounts = $this->serve(ListDomainsFeature::class)->getData(true)['data'];
+
+            $this->table(
+                $columns,
+                $accounts
+            );
+        } catch (ValidationException $e) {
+            $this->handleValidationError($e);
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
+        }
     }
 }

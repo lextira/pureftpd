@@ -60,6 +60,7 @@ class FtpAccountListCommand extends BaseCommand
             $request->replace([
                 'domain_id' => $domain->id,
                 'paginate' => false,
+                'columns' => $columns,
             ]);
 
             $accounts = $this->serve(ListAccountsFeature::class)->getData(true)['data'];

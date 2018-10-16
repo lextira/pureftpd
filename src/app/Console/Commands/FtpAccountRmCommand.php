@@ -7,11 +7,11 @@ use App\Data\Models\Account;
 use App\Data\Models\Domain;
 use App\Data\Repositories\Interfaces\AccountRepository;
 use App\Features\DeleteAccountFeature;
-use Illuminate\Console\Command;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Lucid\Foundation\ServesFeaturesTrait;
 
-class FtpAccountRmCommand extends Command
+class FtpAccountRmCommand extends BaseCommand
 {
     use ServesFeaturesTrait;
 

@@ -9,17 +9,20 @@ class GetAccountsJob extends Job
 {
     protected $domainID;
     protected $paginate;
+    protected $columns;
 
     /**
      * Create a new job instance.
      *
      * @param integer $domainID
      * @param bool $paginate
+     * @param array $columns
      */
-    public function __construct($domainID=null, $paginate=true)
+    public function __construct($domainID=null, $paginate=true, $columns=['*'])
     {
         $this->domainID = $domainID;
         $this->paginate = $paginate;
+        $this->columns = $columns;
     }
 
     /**
@@ -34,9 +37,9 @@ class GetAccountsJob extends Job
             $accountRepository->pushCriteria(new DomainIDCriteria($this->domainID));
         }
         if ($this->paginate) {
-            return $accountRepository->paginate();
+            return $accountRepository->paginate(null, $this->columns);
         } else {
-            return $accountRepository->all();
+            return $accountRepository->all($this->columns);
         }
     }
 }

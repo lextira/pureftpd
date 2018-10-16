@@ -9,17 +9,20 @@ class GetDomainsJob extends Job
 {
     protected $domainID;
     protected $paginate;
+    protected $columns;
 
     /**
      * Create a new job instance.
      *
      * @param integer $domainID
      * @param bool $paginate
+     * @param array $columns
      */
-    public function __construct($domainID=null, $paginate=true)
+    public function __construct($domainID=null, $paginate=true, $columns=['*'])
     {
         $this->domainID = $domainID;
         $this->paginate = $paginate;
+        $this->columns = $columns;
     }
 
     /**
@@ -34,9 +37,9 @@ class GetDomainsJob extends Job
             $domainRepository->pushCriteria(new IDCriteria($this->domainID));
         }
         if ($this->paginate) {
-            return $domainRepository->paginate();
+            return $domainRepository->paginate(null, $this->columns);
         } else {
-            return $domainRepository->all();
+            return $domainRepository->all($this->columns);
         }
     }
 }

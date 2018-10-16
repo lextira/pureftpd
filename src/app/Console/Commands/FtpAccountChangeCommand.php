@@ -6,7 +6,6 @@ use App\Console\FakeRoute;
 use App\Data\Repositories\Interfaces\AccountRepository;
 use App\Features\UpdateAccountFeature;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
 use Illuminate\Validation\ValidationException;
 use Lucid\Foundation\ServesFeaturesTrait;
 
