@@ -31,4 +31,9 @@ class IDCriteria implements CriteriaInterface
     {
         return $model->where('id', $this->id);
     }
+
+    public function getID()
+    {
+        return $this->id;
+    }
 }

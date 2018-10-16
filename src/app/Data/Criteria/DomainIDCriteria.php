@@ -32,4 +32,9 @@ class DomainIDCriteria implements CriteriaInterface
     {
         return $model->where('domain_id', $this->domainID);
     }
+
+    public function getDomainID()
+    {
+        return $this->domainID;
+    }
 }
