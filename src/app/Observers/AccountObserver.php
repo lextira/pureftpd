@@ -2,14 +2,14 @@
 
 namespace App\Observers;
 
-use App\Account;
+use App\Data\Models\Account;
 
 class AccountObserver
 {
     /**
      * Handle the account "creating" event.
      *
-     * @param  \App\Account  $account
+     * @param Account $account
      * @return void
      */
     public function creating(Account $account)
@@ -20,7 +20,7 @@ class AccountObserver
     /**
      * Handle the account "updating" event.
      *
-     * @param  \App\Account  $account
+     * @param Account $account
      * @return void
      */
     public function updating(Account $account)
@@ -31,7 +31,7 @@ class AccountObserver
     /**
      * Handle the account "saving" event.
      *
-     * @param  \App\Account  $account
+     * @param Account $account
      * @return void
      */
     public function saving(Account $account)

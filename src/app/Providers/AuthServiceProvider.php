@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Key;
+use App\Data\Models\Key;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 

@@ -2,63 +2,134 @@
 
 namespace App\Http\Controllers;
 
-use App\Key;
-use Illuminate\Http\Request;
+use App\Features\CreateAccountFeature;
+use App\Features\DeleteAccountFeature;
+use App\Features\ListAccountsFeature;
+use App\Features\ShowAccountFeature;
+use App\Features\UpdateAccountFeature;
 
 class AccountController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *   path="/api/v1/accounts",
+     *   tags={"accounts"},
+     *   summary="Get list of accounts",
+     *   description="",
+     *   operationId="listAccounts",
+     *   security={{"api_key": {}}},
+     *   @OA\Parameter(ref="#/components/parameters/page_number"),
+     *   @OA\Response(
+     *       response=200,
+     *       ref="#/components/responses/paginated_account_list"
+     *   ),
+     *   @OA\Response(response=401, ref="#/components/responses/unauthenticated")
+     * )
      */
     public function index()
     {
-        return 'account.index';
+        return $this->serve(ListAccountsFeature::class);
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @OA\Post(
+     *   path="/api/v1/accounts",
+     *   tags={"accounts"},
+     *   summary="Create account",
+     *   description="",
+     *   operationId="createAccount",
+     *   security={{"api_key": {}}},
+     *   @OA\RequestBody(ref="#/components/requestBodies/account_request"),
+     *   @OA\Response(
+     *       response=200,
+     *       ref="#/components/responses/account_data"
+     *   ),
+     *   @OA\Response(response=401, ref="#/components/responses/unauthenticated")
+     * )
      */
-    public function store(Request $request)
+    public function store()
     {
-        return 'account.store';
+        return $this->serve(CreateAccountFeature::class);
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *   path="/api/v1/accounts/{account_id}",
+     *   tags={"accounts"},
+     *   summary="Get account",
+     *   description="",
+     *   operationId="getAccount",
+     *   security={{"api_key": {}}},
+     *   @OA\Parameter(ref="#/components/parameters/account_id"),
+     *   @OA\Response(
+     *       response=200,
+     *       ref="#/components/responses/account_data"
+     *   ),
+     *   @OA\Response(response=404, ref="#/components/responses/not_found"),
+     *   @OA\Response(response=401, ref="#/components/responses/unauthenticated")
+     * )
      */
-    public function show($id)
+    public function show()
     {
-        return 'account.show';
+        return $this->serve(ShowAccountFeature::class);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Put(
+     *   path="/api/v1/accounts/{account_id}",
+     *   tags={"accounts"},
+     *   summary="Update account",
+     *   description="",
+     *   operationId="updateAccount",
+     *   security={{"api_key": {}}},
+     *   @OA\Parameter(ref="#/components/parameters/account_id"),
+     *   @OA\RequestBody(ref="#/components/requestBodies/account_request"),
+     *   @OA\Response(
+     *       response=200,
+     *       ref="#/components/responses/account_data"
+     *   ),
+     *   @OA\Response(response=404, ref="#/components/responses/not_found"),
+     *   @OA\Response(response=401, ref="#/components/responses/unauthenticated")
+     * )
      */
-    public function update(Request $request, $id)
+    public function update()
     {
-        return 'account.update';
+        return $this->serve(UpdateAccountFeature::class);
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @OA\Delete(
+     *   path="/api/v1/accounts/{account_id}",
+     *   tags={"accounts"},
+     *   summary="Update account",
+     *   description="",
+     *   operationId="deleteAccount",
+     *   security={{"api_key": {}}},
+     *   @OA\Parameter(ref="#/components/parameters/account_id"),
+     *   @OA\Response(
+     *       response=200,
+     *       description="Account successfully removed",
+     *       @OA\JsonContent(
+     *           @OA\Property(
+     *               property="status",
+     *               description="Response status code",
+     *               type="integer",
+     *               example=200
+     *           ),
+     *           @OA\Property(
+     *               property="data",
+     *               description="Response data",
+     *               type="boolean",
+     *               example=true
+     *           )
+     *       )
+     *   ),
+     *   @OA\Response(response=404, ref="#/components/responses/not_found"),
+     *   @OA\Response(response=401, ref="#/components/responses/unauthenticated")
+     * )
      */
-    public function destroy($id)
+    public function destroy()
     {
-        return 'account.destroy';
+        return $this->serve(DeleteAccountFeature::class);
     }
 }

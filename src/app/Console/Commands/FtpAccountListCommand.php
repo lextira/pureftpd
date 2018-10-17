@@ -2,12 +2,17 @@
 
 namespace App\Console\Commands;
 
-use App\Account;
-use App\Domain;
-use Illuminate\Console\Command;
+use App\Data\Models\Account;
+use App\Data\Models\Domain;
+use App\Data\Repositories\Interfaces\DomainRepository;
+use App\Features\ListAccountsFeature;
+use Illuminate\Http\Request;
+use Lucid\Foundation\ServesFeaturesTrait;
 
-class FtpAccountListCommand extends Command
+class FtpAccountListCommand extends BaseCommand
 {
+    use ServesFeaturesTrait;
+
     /**
      * The name and signature of the console command.
      *
@@ -45,24 +50,29 @@ class FtpAccountListCommand extends Command
      *
      * @return mixed
      */
-    public function handle()
+    public function handle(Request $request, DomainRepository $domainRepository)
     {
         $columns = ['id', 'created_at', 'updated_at', 'login', 'status', 'relative_dir', 'description'];
 
-        $domain = $this->domain->where('name', $this->argument('domain'))->first();
+        try {
+            $domain = $domainRepository->firstByFieldOrFail('name', $this->argument('domain'));
 
-        if ($domain == null) {
-            $this->error('Domain not found.');
-            return false;
+            $request->replace([
+                'domain_id' => $domain->id,
+                'paginate' => false,
+                'columns' => $columns,
+            ]);
+
+            $accounts = $this->serve(ListAccountsFeature::class)->getData(true)['data'];
+
+            $this->table(
+                $columns,
+                $accounts
+            );
+        } catch (ValidationException $e) {
+            $this->handleValidationError($e);
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
         }
-
-        $accounts = $domain->accounts->transform(function ($item) use ($columns) {
-            return $item->only($columns);
-        });
-
-        $this->table(
-            $columns,
-            $accounts->toArray()
-        );
     }
 }

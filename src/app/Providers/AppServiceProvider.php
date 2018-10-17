@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Account;
+use App\Data\Models\Account;
 use App\Observers\AccountObserver;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->register(RepositoryServiceProvider::class);
     }
 }

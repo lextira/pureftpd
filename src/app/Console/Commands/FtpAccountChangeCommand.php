@@ -2,12 +2,17 @@
 
 namespace App\Console\Commands;
 
-use App\Account;
-use App\Domain;
-use Illuminate\Console\Command;
+use App\Console\FakeRoute;
+use App\Data\Repositories\Interfaces\AccountRepository;
+use App\Features\UpdateAccountFeature;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Lucid\Foundation\ServesFeaturesTrait;
 
-class FtpAccountChangeCommand extends Command
+class FtpAccountChangeCommand extends BaseCommand
 {
+    use ServesFeaturesTrait;
+
     /**
      * The name and signature of the console command.
      *
@@ -26,44 +31,45 @@ class FtpAccountChangeCommand extends Command
      */
     protected $description = 'Change an existing account.';
 
-    protected $account;
-    protected $domain;
-
     /**
      * Create a new command instance.
      *
-     * @param $account
-     * @param $domain
      * @return void
      */
-    public function __construct(Account $account, Domain $domain)
+    public function __construct()
     {
         parent::__construct();
-
-        $this->account = $account;
-        $this->domain = $domain;
     }
 
     /**
      * Execute the console command.
      *
+     * @param Request $request
+     * @param AccountRepository $accountRepository
      * @return mixed
      */
-    public function handle()
+    public function handle(Request $request, AccountRepository $accountRepository)
     {
-        $account = $this->account->where('login', $this->argument('login'))->first();
+        try {
+            $account = $accountRepository->firstByFieldOrFail('login', $this->argument('login'));
 
-        if ($account == null) {
-            $this->error('Account not found.');
+            $request->replace([
+                'password' => $this->option('pass'),
+                'status' => $this->option('status'),
+                'relative_dir' => $this->option('dir'),
+                'description' => $this->option('desc'),
+            ]);
 
-            return false;
+            $request->setRouteResolver(function() use ($account) {
+                return new FakeRoute(['account' => $account->id]);
+            });
+
+            $account = $this->serve(UpdateAccountFeature::class)->getData()->data;
+            $this->info('Account #' . $account->id . ' ' . $account->login . ' updated.');
+        } catch (ValidationException $e) {
+            $this->handleValidationError($e);
+        } catch (\Exception $e) {
+            $this->error($e->getMessage());
         }
-
-        $account->fill([
-            'password' => $this->option('pass'),
-            'status' => $this->option('status'),
-            'relative_dir' => $this->option('dir'),
-            'description' => $this->option('desc'),
-        ])->save();
     }
 }

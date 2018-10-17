@@ -2,17 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Features\ListDomainsFeature;
 
 class DomainController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
+     * @OA\Get(
+     *   path="/api/v1/domains",
+     *   tags={"domains"},
+     *   summary="Get list of domains",
+     *   description="",
+     *   operationId="lisDomains",
+     *   security={{"api_key": {}}},
+     *   @OA\Parameter(ref="#/components/parameters/page_number"),
+     *   @OA\Response(
+     *       response=200,
+     *       ref="#/components/responses/paginated_domain_list"
+     *   ),
+     *   @OA\Response(response=401, ref="#/components/responses/unauthenticated")
+     * )
      */
     public function index()
     {
-        return 'domain.index';
+        return $this->serve(ListDomainsFeature::class);
     }
 }

@@ -1,0 +1,503 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Pure-FTPd API",
+        "description": "Laravel based API for Pure-FTPd. For authorization use header:\r\n              `Authorization: Bearer <Key_Token>`",
+        "contact": {
+            "email": "dominik.kohler@lextira.ch"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/accounts": {
+            "get": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Get list of accounts",
+                "description": "",
+                "operationId": "listAccounts",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page_number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/paginated_account_list"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Create account",
+                "description": "",
+                "operationId": "createAccount",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/account_request"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/account_data"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/accounts/{account_id}": {
+            "get": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Get account",
+                "description": "",
+                "operationId": "getAccount",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/account_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/account_data"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/not_found"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Update account",
+                "description": "",
+                "operationId": "updateAccount",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/account_id"
+                    }
+                ],
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/account_request"
+                },
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/account_data"
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/not_found"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Update account",
+                "description": "",
+                "operationId": "deleteAccount",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/account_id"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Account successfully removed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Response status code",
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "data": {
+                                            "description": "Response data",
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "$ref": "#/components/responses/not_found"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/domains": {
+            "get": {
+                "tags": [
+                    "domains"
+                ],
+                "summary": "Get list of domains",
+                "description": "",
+                "operationId": "lisDomains",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/page_number"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/paginated_domain_list"
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "single_account": {
+                "properties": {
+                    "status": {
+                        "$ref": "#/components/schemas/status_200"
+                    },
+                    "data": {
+                        "description": "Response data",
+                        "type": "object",
+                        "$ref": "#/components/schemas/Account"
+                    }
+                },
+                "type": "object"
+            },
+            "status_200": {
+                "property": "status",
+                "description": "Response status code",
+                "type": "integer",
+                "example": 200
+            },
+            "pagination_data": {
+                "properties": {
+                    "current_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "first_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/v1/accounts?page=1"
+                    },
+                    "from": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "last_page_url": {
+                        "type": "string",
+                        "example": "http://localhost/api/v1/accounts?page=1"
+                    },
+                    "next_page_url": {
+                        "type": "string|null",
+                        "example": "http://localhost/api/v1/accounts?page=1"
+                    },
+                    "path": {
+                        "type": "string",
+                        "example": "http://localhost/api/v1/accounts"
+                    },
+                    "per_page": {
+                        "type": "integer",
+                        "example": 15
+                    },
+                    "prev_page_url": {
+                        "type": "string|null",
+                        "example": "ttp://localhost/api/v1/accounts?page=1"
+                    },
+                    "to": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "total": {
+                        "type": "integer",
+                        "example": 25
+                    }
+                },
+                "type": "object"
+            },
+            "Account": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/account_readonly_fields"
+                    },
+                    {
+                        "$ref": "#/components/schemas/account_editable_fields"
+                    }
+                ]
+            },
+            "account_readonly_fields": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "domain_id": {
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
+            "account_editable_fields": {
+                "required": [
+                    "login",
+                    "password",
+                    "relative_dir"
+                ],
+                "properties": {
+                    "login": {
+                        "type": "string",
+                        "example": "mylogin@domain"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "hashed_password"
+                    },
+                    "status": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "relative_dir": {
+                        "type": "integer",
+                        "example": "sub/dir"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Account description"
+                    }
+                },
+                "type": "object"
+            },
+            "Domain": {
+                "properties": {
+                    "id": {
+                        "schema": "Domain",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "schema": "Domain",
+                        "type": "string",
+                        "example": "domain.test"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "paginated_account_list": {
+                "description": "Response with paginated list of accounts",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "$ref": "#/components/schemas/status_200"
+                                },
+                                "data": {
+                                    "description": "Response data",
+                                    "type": "object",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/pagination_data"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Account"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "paginated_domain_list": {
+                "description": "Response with paginated list of domains",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "$ref": "#/components/schemas/status_200"
+                                },
+                                "data": {
+                                    "description": "Response data",
+                                    "type": "object",
+                                    "allOf": [
+                                        {
+                                            "$ref": "#/components/schemas/pagination_data"
+                                        },
+                                        {
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "$ref": "#/components/schemas/Domain"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    ]
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "account_data": {
+                "description": "Response with account info",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/single_account"
+                        }
+                    }
+                }
+            },
+            "unauthenticated": {
+                "description": "Unauthenticated response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Unauthenticated"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "not_found": {
+                "description": "Model was not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "message": {
+                                    "type": "string",
+                                    "example": "Model was not found"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "page_number": {
+                "name": "page",
+                "in": "query",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                },
+                "example": 2
+            },
+            "account_id": {
+                "name": "account_id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "integer"
+                },
+                "example": 2
+            }
+        },
+        "requestBodies": {
+            "account_request": {
+                "description": "account_request",
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/account_editable_fields"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "api_key": {
+                "type": "http",
+                "name": "Authorization",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Pure-FTPd API",
+        "url": "https://github.com/lextira/pureftpd-api"
+    }
+}
