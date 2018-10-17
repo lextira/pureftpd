@@ -120,7 +120,7 @@ use Lucid\Foundation\Http\Controller as LucidController;
  *         request="account_request",
  *         required=true,
  *         description="account_request",
- *         @OA\JsonContent(ref="#/components/schemas/Account")
+ *         @OA\JsonContent(ref="#/components/schemas/account_editable_fields")
  *     ),
  *     @OA\Schema(
  *         schema="single_account",

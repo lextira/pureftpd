@@ -5,41 +5,54 @@ namespace App\Data\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @OA\Schema(schema="Account")
- * @OA\Property(
- *     property="id",
- *     type="integer",
- *     example=1,
+ * @OA\Schema(
+ *     schema="Account",
+ *     allOf={
+ *         @OA\Schema(ref="#/components/schemas/account_readonly_fields"),
+ *         @OA\Schema(ref="#/components/schemas/account_editable_fields"),
+ *     }
  * )
- * @OA\Property(
- *     property="domain_id",
- *     type="integer",
- *     example=1,
+ * @OA\Schema(
+ *     schema="account_readonly_fields",
+ *     @OA\Property(
+ *         property="id",
+ *         type="integer",
+ *         example=1,
+ *     ),
+ *     @OA\Property(
+ *         property="domain_id",
+ *         type="integer",
+ *         example=1,
+ *     )
  * )
- * @OA\Property(
- *     property="login",
- *     type="string",
- *     example="mylogin@domain",
- * )
- * @OA\Property(
- *     property="password",
- *     type="string",
- *     example="hashed_password",
- * )
- * @OA\Property(
- *     property="status",
- *     type="integer",
- *     example=1,
- * )
- * @OA\Property(
- *     property="relative_dir",
- *     type="integer",
- *     example="sub/dir",
- * )
- * @OA\Property(
- *     property="description",
- *     type="string",
- *     example="Account description",
+ * @OA\Schema(
+ *     schema="account_editable_fields",
+ *     required={"login", "password", "relative_dir"},
+ *     @OA\Property(
+ *         property="login",
+ *         type="string",
+ *         example="mylogin@domain",
+ *     ),
+ *     @OA\Property(
+ *         property="password",
+ *         type="string",
+ *         example="hashed_password",
+ *     ),
+ *     @OA\Property(
+ *         property="status",
+ *         type="integer",
+ *         example=1,
+ *     ),
+ *     @OA\Property(
+ *         property="relative_dir",
+ *         type="integer",
+ *         example="sub/dir",
+ *     ),
+ *     @OA\Property(
+ *         property="description",
+ *         type="string",
+ *         example="Account description",
+ *     )
  * )
  */
 class Account extends Model

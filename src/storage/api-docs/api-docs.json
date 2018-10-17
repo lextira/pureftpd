@@ -272,39 +272,52 @@
                 "type": "object"
             },
             "Account": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/account_readonly_fields"
+                    },
+                    {
+                        "$ref": "#/components/schemas/account_editable_fields"
+                    }
+                ]
+            },
+            "account_readonly_fields": {
                 "properties": {
                     "id": {
-                        "schema": "Account",
                         "type": "integer",
                         "example": 1
                     },
                     "domain_id": {
-                        "schema": "Account",
                         "type": "integer",
                         "example": 1
-                    },
+                    }
+                },
+                "type": "object"
+            },
+            "account_editable_fields": {
+                "required": [
+                    "login",
+                    "password",
+                    "relative_dir"
+                ],
+                "properties": {
                     "login": {
-                        "schema": "Account",
                         "type": "string",
                         "example": "mylogin@domain"
                     },
                     "password": {
-                        "schema": "Account",
                         "type": "string",
                         "example": "hashed_password"
                     },
                     "status": {
-                        "schema": "Account",
                         "type": "integer",
                         "example": 1
                     },
                     "relative_dir": {
-                        "schema": "Account",
                         "type": "integer",
                         "example": "sub/dir"
                     },
                     "description": {
-                        "schema": "Account",
                         "type": "string",
                         "example": "Account description"
                     }
@@ -329,7 +342,7 @@
         },
         "responses": {
             "paginated_account_list": {
-                "description": "Response with paginated list of items",
+                "description": "Response with paginated list of accounts",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -364,7 +377,7 @@
                 }
             },
             "paginated_domain_list": {
-                "description": "Response with paginated list of items",
+                "description": "Response with paginated list of domains",
                 "content": {
                     "application/json": {
                         "schema": {
@@ -468,7 +481,7 @@
                 "content": {
                     "application/json": {
                         "schema": {
-                            "$ref": "#/components/schemas/Account"
+                            "$ref": "#/components/schemas/account_editable_fields"
                         }
                     }
                 }
