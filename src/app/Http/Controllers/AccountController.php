@@ -21,7 +21,7 @@ class AccountController extends Controller
      *   @OA\Parameter(ref="#/components/parameters/page_number"),
      *   @OA\Response(
      *       response=200,
-     *       ref="#/components/responses/paginated_list"
+     *       ref="#/components/responses/paginated_account_list"
      *   ),
      *   @OA\Response(response=401, ref="#/components/responses/unauthenticated")
      * )

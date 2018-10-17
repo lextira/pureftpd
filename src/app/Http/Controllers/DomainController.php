@@ -17,7 +17,7 @@ class DomainController extends Controller
      *   @OA\Parameter(ref="#/components/parameters/page_number"),
      *   @OA\Response(
      *       response=200,
-     *       ref="#/components/responses/domain_list"
+     *       ref="#/components/responses/paginated_domain_list"
      *   ),
      *   @OA\Response(response=401, ref="#/components/responses/unauthenticated")
      * )

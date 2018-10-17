@@ -52,14 +52,42 @@ use Lucid\Foundation\Http\Controller as LucidController;
  *         required=true
  *     ),
  *     @OA\Response(
- *         response="paginated_list",
- *         description="Response with paginated list of items",
- *         @OA\JsonContent(ref="#/components/schemas/account_list")
+ *         response="paginated_account_list",
+ *         description="Response with paginated list of accounts",
+ *         @OA\JsonContent(
+ *             @OA\Property(ref="#/components/schemas/status_200", property="status"),
+ *             @OA\Property(
+ *                 property="data",
+ *                 description="Response data",
+ *                 type="object",
+ *                 allOf={
+ *                     @OA\Schema(ref="#/components/schemas/pagination_data"),
+ *                     @OA\Schema(
+ *                         @OA\Property(property="data",
+ *                         @OA\Items(ref="#/components/schemas/Account"), type="array")
+ *                     )
+ *                 }
+ *             )
+ *         )
  *     ),
  *     @OA\Response(
- *         response="domain_list",
- *         description="Response with paginated list of items",
- *         @OA\JsonContent(ref="#/components/schemas/domain_list")
+ *         response="paginated_domain_list",
+ *         description="Response with paginated list of domains",
+ *         @OA\JsonContent(
+ *             @OA\Property(ref="#/components/schemas/status_200", property="status"),
+ *             @OA\Property(
+ *                 property="data",
+ *                 description="Response data",
+ *                 type="object",
+ *                 allOf={
+ *                     @OA\Schema(ref="#/components/schemas/pagination_data"),
+ *                     @OA\Schema(
+ *                         @OA\Property(property="data",
+ *                         @OA\Items(ref="#/components/schemas/Domain"), type="array")
+ *                     )
+ *                 }
+ *             )
+ *         )
  *     ),
  *     @OA\Response(
  *         response="account_data",
@@ -96,12 +124,7 @@ use Lucid\Foundation\Http\Controller as LucidController;
  *     ),
  *     @OA\Schema(
  *         schema="single_account",
- *         @OA\Property(
- *             property="status",
- *             description="Response status code",
- *             type="integer",
- *             example=200
- *         ),
+ *         @OA\Property(ref="#/components/schemas/status_200", property="status"),
  *         @OA\Property(
  *             property="data",
  *             description="Response data",
@@ -109,57 +132,26 @@ use Lucid\Foundation\Http\Controller as LucidController;
  *             ref="#/components/schemas/Account"
  *         )
  *     ),
- *     @OA\Schema(
- *         schema="account_list",
- *         @OA\Property(
- *             property="status",
- *             description="Response status code",
- *             type="integer",
- *             example=200
- *         ),
- *         @OA\Property(
- *             property="data",
- *             description="Response data",
- *             type="object",
- *             @OA\Property(property="current_page", type="integer", example=1),
- *             @OA\Property(property="data", @OA\Items(ref="#/components/schemas/Account"), type="array"),
- *             @OA\Property(property="first_page_url", type="string", example="http://localhost/api/v1/accounts?page=1"),
- *             @OA\Property(property="from", type="integer", example=1),
- *             @OA\Property(property="last_page", type="integer", example=1),
- *             @OA\Property(property="last_page_url", type="string", example="http://localhost/api/v1/accounts?page=1"),
- *             @OA\Property(property="next_page_url", type="string|null", example="http://localhost/api/v1/accounts?page=1"),
- *             @OA\Property(property="path", type="string", example="http://localhost/api/v1/accounts"),
- *             @OA\Property(property="per_page", type="integer", example=15),
- *             @OA\Property(property="prev_page_url", type="string|null", example="ttp://localhost/api/v1/accounts?page=1"),
- *             @OA\Property(property="to", type="integer", example=10),
- *             @OA\Property(property="total", type="integer", example=25),
- *         ),
+ *     @OA\Property(
+ *         schema="status_200",
+ *         property="status",
+ *         description="Response status code",
+ *         type="integer",
+ *         example=200,
  *     ),
  *     @OA\Schema(
- *         schema="domain_list",
- *         @OA\Property(
- *             property="status",
- *             description="Response status code",
- *             type="integer",
- *             example=200
- *         ),
- *         @OA\Property(
- *             property="data",
- *             description="Response data",
- *             type="object",
- *             @OA\Property(property="current_page", type="integer", example=1),
- *             @OA\Property(property="data", @OA\Items(ref="#/components/schemas/Domain"), type="array"),
- *             @OA\Property(property="first_page_url", type="string", example="http://localhost/api/v1/accounts?page=1"),
- *             @OA\Property(property="from", type="integer", example=1),
- *             @OA\Property(property="last_page", type="integer", example=1),
- *             @OA\Property(property="last_page_url", type="string", example="http://localhost/api/v1/accounts?page=1"),
- *             @OA\Property(property="next_page_url", type="string|null", example="http://localhost/api/v1/accounts?page=1"),
- *             @OA\Property(property="path", type="string", example="http://localhost/api/v1/accounts"),
- *             @OA\Property(property="per_page", type="integer", example=15),
- *             @OA\Property(property="prev_page_url", type="string|null", example="ttp://localhost/api/v1/accounts?page=1"),
- *             @OA\Property(property="to", type="integer", example=10),
- *             @OA\Property(property="total", type="integer", example=25),
- *         ),
+ *         schema="pagination_data",
+ *         @OA\Property(property="current_page", type="integer", example=1),
+ *         @OA\Property(property="first_page_url", type="string", example="http://localhost/api/v1/accounts?page=1"),
+ *         @OA\Property(property="from", type="integer", example=1),
+ *         @OA\Property(property="last_page", type="integer", example=1),
+ *         @OA\Property(property="last_page_url", type="string", example="http://localhost/api/v1/accounts?page=1"),
+ *         @OA\Property(property="next_page_url", type="string|null", example="http://localhost/api/v1/accounts?page=1"),
+ *         @OA\Property(property="path", type="string", example="http://localhost/api/v1/accounts"),
+ *         @OA\Property(property="per_page", type="integer", example=15),
+ *         @OA\Property(property="prev_page_url", type="string|null", example="ttp://localhost/api/v1/accounts?page=1"),
+ *         @OA\Property(property="to", type="integer", example=10),
+ *         @OA\Property(property="total", type="integer", example=25),
  *     )
  * )
  */
