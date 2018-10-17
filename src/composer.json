@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": "^7.1.3",
+        "darkaonline/l5-swagger": "^5.7",
         "fideloper/proxy": "^4.0",
         "jdavidbakr/laravel-cache-garbage-collector": "^1.0",
         "laravel/framework": "5.6.*",

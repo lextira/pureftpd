@@ -5,6 +5,19 @@ namespace App\Data\Models;
 use App\Http\Controllers\AccountController;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @OA\Schema(schema="Domain")
+ * @OA\Property(
+ *     property="id",
+ *     type="integer",
+ *     example=1,
+ * )
+ * @OA\Property(
+ *     property="name",
+ *     type="string",
+ *     example="domain.test",
+ * )
+ */
 class Domain extends Model
 {
     /**
