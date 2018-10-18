@@ -29,10 +29,14 @@ class CheckDBJob extends Job
             'status' => 'Unknown error',
         ];
         try {
-            $accountRepository->find(1);
+            $account = $accountRepository->first();
 
-            $response['ok'] = true;
-            $response['status'] = 'OK';
+            if ($account) {
+                $response['ok'] = true;
+                $response['status'] = 'OK';
+            } else {
+                $response['status'] = 'No accounts found';
+            }
         } catch (\Exception $e) {
             $response['status'] = $e->getMessage();
         }
