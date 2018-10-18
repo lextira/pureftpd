@@ -120,8 +120,6 @@ class Account extends Model
     {
         $base_dir = $this->domain->getBaseDirectory() . '/';
 
-        return
-            $base_dir .
-            $this->relative_dir;
+        return preg_replace('/\/+/', '/', $base_dir . $this->relative_dir);
     }
 }
