@@ -25,4 +25,24 @@ return [
 
     'domain_separator' => '@',
 
+    /*
+    |--------------------------------------------------------------------------
+    | FTP URL
+    |--------------------------------------------------------------------------
+    |
+    | Defines FTP server URL.
+    |
+    */
+
+    'url' => env('FTP_URL', 'ftp'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | SSL Expiration
+    |--------------------------------------------------------------------------
+    |
+    | Defines a period in days when SSL certificate expiration alarm should be triggered
+    |
+    */
+    'ssl_expiration' => env('FTP_SSL_EXPIRATION', 3),
 ];

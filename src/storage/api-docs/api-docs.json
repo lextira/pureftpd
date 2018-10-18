@@ -199,6 +199,24 @@
                     }
                 ]
             }
+        },
+        "/api/v1/health/check": {
+            "get": {
+                "tags": [
+                    "health"
+                ],
+                "summary": "Checks FTP, DB and SSL services",
+                "description": "",
+                "operationId": "checkHealth",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/health_check_ok"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/health_check_error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -446,6 +464,72 @@
                                 "message": {
                                     "type": "string",
                                     "example": "Model was not found"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "health_check_ok": {
+                "description": "Service is running smoothly",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 200
+                                },
+                                "data": {
+                                    "properties": {
+                                        "db_status": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "ftp_status": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "ssl_status": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "health_check_error": {
+                "description": "Something went wrong",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "integer",
+                                    "example": 500
+                                },
+                                "data": {
+                                    "properties": {
+                                        "db_status": {
+                                            "type": "string",
+                                            "example": "OK"
+                                        },
+                                        "ftp_status": {
+                                            "type": "string",
+                                            "example": "Unable to connect"
+                                        },
+                                        "ssl_status": {
+                                            "type": "string",
+                                            "example": "SSL routines:CONNECT_CR_CERT:certificate verify failed"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             },
                             "type": "object"

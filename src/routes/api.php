@@ -17,4 +17,6 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {
     Route::get('/domains', 'DomainController@index')->name('domain.index');
 
     Route::resource('accounts', 'AccountController');
+
+    Route::get('/health/check', 'HealthController@check')->name('health.check');
 });
