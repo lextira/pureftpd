@@ -27,8 +27,7 @@ services:
     depends_on:
       - mysql
     environment:
-      - LOCAL_CERT=true
-      - CHANGE=8
+      - LOCAL_CERT=false
     volumes:
       - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
       - ${FTP_DATA_DIR}:/var/ftp-data
