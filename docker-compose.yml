@@ -13,8 +13,8 @@ services:
       - WEB_DOCUMENT_ROOT=/var/www/public
       - WEB_DOCUMENT_INDEX=index.php
       - WEB_ALIAS_DOMAIN=localhost
+      - APP_URL=${API_DOMAIN}
     ports:
-      - 80:80
       - 443:443
     networks:
       - pureftpd
@@ -28,9 +28,9 @@ services:
       - LOCAL_CERT=true
       - CHANGE=8
     volumes:
-      - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
-#      - /etc/pureftp-api/ssl/:/etc/ssl/private/
-#      - /var/ftp-data:/var/ftp-data
+      - ftp_config:/etc/pureftpd
+      - ftp_data:/var/ftp-data
+      - tls_cert:/etc/ssl/private/
     ports:
       - 20-21:20-21
       - 30000-30099:30000-30099
@@ -42,7 +42,7 @@ services:
     image: mariadb:10.3
     restart: ${SERVICES_RESTART}
     volumes:
-      - ${DB_DIR}:/var/lib/mysql
+      - db_data:/var/lib/mysql
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=pureftpd
@@ -54,5 +54,59 @@ services:
     networks:
       - pureftpd
 
+
+  certbot:
+    image: webdevops/certbot
+    restart: "no"
+    volumes: 
+      - tls_cert:/etc/letsencrypt
+    ports:
+      - 80:80
+    command: [      
+      "/usr/bin/certbot",
+      "certonly",
+      "--agree-tos",
+      "--standalone",
+      "--preferred-challenges", "http",
+      "-d ${CERTBOT_DOMAIN}",
+      "-m ${CERTBOT_EMAIL}",
+      "--dry-run"
+      ]
+
+
 networks:
   pureftpd:
+
+
+volumes:
+
+# service pureftpd
+  ftp_config:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: ${CONFIG_DIR}/pureftpd
+  ftp_data:
+#    driver: local
+#    driver_opts:
+#      type: 'none'
+#      o: 'bind'
+#      device: ${FTP_DATA_DIR}
+
+
+# service db
+  db_data:
+#    driver: local
+#    driver_opts:
+#      type: 'none'
+#      o: 'bind'
+#      device: ${DB_DATA_DIR}
+
+# shared
+  tls_cert:
+#    driver: local
+#    driver_opts:
+#      type: 'none'
+#      o: 'bind'
+#      device: ${TLS_CERT_DIR}
