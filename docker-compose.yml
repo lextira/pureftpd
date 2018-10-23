@@ -62,7 +62,7 @@ services:
     command: [      
       "/usr/bin/certbot",
       "certonly",
-      "--noninteractive"
+      "--noninteractive",
       "--agree-tos",
       "--standalone",
       "--preferred-challenges", "http",
