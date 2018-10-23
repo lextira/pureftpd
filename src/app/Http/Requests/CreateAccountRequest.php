@@ -31,11 +31,11 @@ class CreateAccountRequest extends FormRequest
 
         return [
             'domain_id' => 'required|exists:domains,id',
-            'login' => ['required', 'max:255', $uniqueLoginRule],
+            'login' => ['required', 'regex:/^[a-zA-Z_0-9\.]+$/u', 'max:255', $uniqueLoginRule],
             'password' => 'required_without:hashed_password',
             'hashed_password' => 'required_without:password|max:255',
             'status' => 'integer',
-            'relative_dir' => 'required|max:255',
+            'relative_dir' => 'required|regex:/^[a-zA-Z_\/0-9]+$/u|max:255',
             'description' => 'max:255',
         ];
     }

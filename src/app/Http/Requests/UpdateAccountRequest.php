@@ -36,10 +36,10 @@ class UpdateAccountRequest extends FormRequest
 
         return [
             'domain_id' => 'exists:domains,id',
-            'login' => ['max:255', $uniqueLoginRule],
+            'login' => ['max:255', 'regex:/^[a-zA-Z_0-9\.]+$/u', $uniqueLoginRule],
             'hashed_password' => 'max:255',
             'status' => 'integer',
-            'relative_dir' => 'max:255',
+            'relative_dir' => 'regex:/^[a-zA-Z_\/0-9]+$/u|max:255',
             'description' => 'max:255',
         ];
     }
