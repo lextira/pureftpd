@@ -9,6 +9,8 @@ services:
       - mysql
     volumes:
       - ${SOURCE_DIR}/src:/var/www
+      - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/fullchain.pem:/opt/docker/etc/nginx/ssl/server.crt
+      - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/privkey.pem:/opt/docker/etc/nginx/ssl/server.key
     environment:
       - WEB_DOCUMENT_ROOT=/var/www/public
       - WEB_DOCUMENT_INDEX=index.php
@@ -28,9 +30,9 @@ services:
       - LOCAL_CERT=true
       - CHANGE=8
     volumes:
-      - ftp_config:/etc/pureftpd
-      - ftp_data:/var/ftp-data
-      - tls_cert:/etc/ssl/private/
+      - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
+      - ${FTP_DATA_DIR}:/var/ftp-data
+      - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/:/etc/ssl/private/
     ports:
       - 20-21:20-21
       - 30000-30099:30000-30099
@@ -42,7 +44,7 @@ services:
     image: mariadb:10.3
     restart: ${SERVICES_RESTART}
     volumes:
-      - db_data:/var/lib/mysql
+      - ${DB_DATA_DIR}:/var/lib/mysql
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=pureftpd
@@ -59,7 +61,7 @@ services:
     image: webdevops/certbot
     restart: "no"
     volumes: 
-      - tls_cert:/etc/letsencrypt
+      - ${TLS_CERT_DIR}:/etc/letsencrypt/
     ports:
       - 80:80
     command: [      
@@ -70,43 +72,9 @@ services:
       "--preferred-challenges", "http",
       "-d ${CERTBOT_DOMAIN}",
       "-m ${CERTBOT_EMAIL}",
-      "--dry-run"
+      "--
       ]
 
 
 networks:
   pureftpd:
-
-
-volumes:
-
-# service pureftpd
-  ftp_config:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: ${CONFIG_DIR}/pureftpd
-  ftp_data:
-#    driver: local
-#    driver_opts:
-#      type: 'none'
-#      o: 'bind'
-#      device: ${FTP_DATA_DIR}
-
-
-# service db
-  db_data:
-#    driver: local
-#    driver_opts:
-#      type: 'none'
-#      o: 'bind'
-#      device: ${DB_DATA_DIR}
-
-# shared
-  tls_cert:
-#    driver: local
-#    driver_opts:
-#      type: 'none'
-#      o: 'bind'
-#      device: ${TLS_CERT_DIR}

@@ -8,6 +8,10 @@ then
     -newkey rsa:2048 -nodes -sha256 \
     -subj '/CN=localhost' -extensions EXT -config <( \
      printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+else
+    echo "--- Concatiante CertFile ---"
+    cat /etc/ssl/private/privkey.pem > /etc/ssl/private/certs.pem
+    cat /etc/ssl/private/fullchain.pem >> /etc/ssl/private/certs.pem
 fi
 
 echo "--- Start pure-ftpd ---"
