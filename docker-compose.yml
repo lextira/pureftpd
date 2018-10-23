@@ -32,7 +32,8 @@ services:
     volumes:
       - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
       - ${FTP_DATA_DIR}:/var/ftp-data
-      - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/:/etc/ssl/private/
+      - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/fullchain.pem:/etc/ssl/private/fullchain.pem
+      - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/privkey.pem:/etc/ssl/private/privkey.pem
     ports:
       - 20-21:20-21
       - 30000-30099:30000-30099
