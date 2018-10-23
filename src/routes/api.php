@@ -18,3 +18,5 @@ Route::group(['prefix' => 'v1', 'middleware' => 'auth:api'], function() {
 
     Route::resource('accounts', 'AccountController');
 });
+
+Route::get('/v1/health/check', 'HealthController@check')->name('health.check');
