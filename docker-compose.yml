@@ -9,12 +9,14 @@ services:
       - mysql
     volumes:
       - ${SOURCE_DIR}/src:/var/www
+      - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/fullchain.pem:/opt/docker/etc/nginx/ssl/server.crt
+      - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/privkey.pem:/opt/docker/etc/nginx/ssl/server.key
     environment:
       - WEB_DOCUMENT_ROOT=/var/www/public
       - WEB_DOCUMENT_INDEX=index.php
       - WEB_ALIAS_DOMAIN=localhost
+      - APP_URL=${API_DOMAIN}
     ports:
-      - 80:80
       - 443:443
     networks:
       - pureftpd
@@ -24,13 +26,11 @@ services:
     restart: ${SERVICES_RESTART}
     depends_on:
       - mysql
-    environment:
-      - LOCAL_CERT=true
-      - CHANGE=8
     volumes:
       - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
-#      - /etc/pureftp-api/ssl/:/etc/ssl/private/
-#      - /var/ftp-data:/var/ftp-data
+      - ${FTP_DATA_DIR}:/var/ftp-data
+      - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/fullchain.pem:/etc/ssl/private/fullchain.pem
+      - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/privkey.pem:/etc/ssl/private/privkey.pem
     ports:
       - 20-21:20-21
       - 30000-30099:30000-30099
@@ -42,17 +42,34 @@ services:
     image: mariadb:10.3
     restart: ${SERVICES_RESTART}
     volumes:
-      - ${DB_DIR}:/var/lib/mysql
+      - ${DB_DATA_DIR}:/var/lib/mysql
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=pureftpd
       - MYSQL_USER=pure
       - MYSQL_PASSWORD=pure
-# only allow exposed port for debug!
-    ports:
-      - 3306:3306
     networks:
       - pureftpd
+
+
+  certbot:
+    image: webdevops/certbot
+    restart: "no"
+    volumes: 
+      - ${TLS_CERT_DIR}:/etc/letsencrypt/
+    ports:
+      - 80:80
+    command: [      
+      "/usr/bin/certbot",
+      "certonly",
+      "--noninteractive"
+      "--agree-tos",
+      "--standalone",
+      "--preferred-challenges", "http",
+      "-d ${CERTBOT_DOMAIN}",
+      "-m ${CERTBOT_EMAIL}"
+      ]
+
 
 networks:
   pureftpd:
