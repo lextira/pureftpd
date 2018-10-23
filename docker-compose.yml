@@ -71,8 +71,7 @@ services:
       "--standalone",
       "--preferred-challenges", "http",
       "-d ${CERTBOT_DOMAIN}",
-      "-m ${CERTBOT_EMAIL}",
-      "--
+      "-m ${CERTBOT_EMAIL}"
       ]
 
 
