@@ -1,7 +1,7 @@
 version: '3.4'
 
 services:
-  api:
+  web:
     image: webdevops/php-nginx:alpine-php7
     restart: ${SERVICES_RESTART}
     working_dir: /var/www
