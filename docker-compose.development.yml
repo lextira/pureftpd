@@ -52,3 +52,7 @@ services:
 
 networks:
   pureftpd:
+
+volumes:
+  db:
+  ftp:
