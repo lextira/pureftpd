@@ -6,7 +6,7 @@ services:
     restart: ${SERVICES_RESTART}
     working_dir: /var/www
     depends_on:
-      - mysql
+      - db
     volumes:
       - ${SOURCE_DIR}/src:/var/www
     environment:
@@ -23,7 +23,7 @@ services:
     build: ftp/.
     restart: ${SERVICES_RESTART}
     depends_on:
-      - mysql
+      - db
     volumes:
       - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
       - ${FTP_DATA_DIR}:/var/ftp-data

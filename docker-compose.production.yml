@@ -5,7 +5,7 @@ services:
     image: lextira/pureftpd-api
     restart: ${SERVICES_RESTART}
     depends_on:
-      - mysql
+      - db
     volumes:
       - ${SOURCE_DIR}/src:/var/www
       - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/fullchain.pem:/opt/docker/etc/nginx/ssl/server.crt
@@ -24,7 +24,7 @@ services:
     build: lextira/pureftpd-ftp
     restart: ${SERVICES_RESTART}
     depends_on:
-      - mysql
+      - db
     volumes:
       - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
       - ${FTP_DATA_DIR}:/var/ftp-data
