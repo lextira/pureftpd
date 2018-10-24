@@ -2,9 +2,8 @@ version: '3.4'
 
 services:
   web:
-    image: webdevops/php-nginx:alpine-php7
+    image: lextira/pureftpd-api
     restart: ${SERVICES_RESTART}
-    working_dir: /var/www
     depends_on:
       - mysql
     volumes:
@@ -22,7 +21,7 @@ services:
       - pureftpd
 
   ftp:
-    build: ftp/.
+    build: lextira/pureftpd-ftp
     restart: ${SERVICES_RESTART}
     depends_on:
       - mysql
@@ -38,7 +37,7 @@ services:
       - pureftpd
 
 
-  mysql:
+  db:
     image: mariadb:10.3
     restart: ${SERVICES_RESTART}
     volumes:
