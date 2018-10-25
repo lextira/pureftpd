@@ -1,0 +1,59 @@
+version: '3.4'
+
+services:
+  web:
+    image: webdevops/php-nginx:alpine-php7
+    restart: ${SERVICES_RESTART}
+    working_dir: /var/www
+    depends_on:
+      - db
+    volumes:
+      - ${SOURCE_DIR}/src:/var/www
+    environment:
+      - WEB_DOCUMENT_ROOT=/var/www/public
+      - WEB_DOCUMENT_INDEX=index.php
+      - WEB_ALIAS_DOMAIN=localhost
+      - APP_URL=${API_DOMAIN}
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - pureftpd
+
+  ftp:
+    build: ftp/.
+    restart: ${SERVICES_RESTART}
+    depends_on:
+      - db
+    volumes:
+      - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
+      - ${FTP_DATA_DIR}:/var/ftp-data
+    environment:
+      - LOCAL_CERT=true
+    ports:
+      - 20-21:20-21
+      - 30000-30099:30000-30099
+    networks:
+      - pureftpd
+
+
+  db:
+    image: mariadb:10.3
+    restart: ${SERVICES_RESTART}
+    volumes:
+      - ${DB_DATA_DIR}:/var/lib/mysql
+    environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=yes
+      - MYSQL_DATABASE=pureftpd
+      - MYSQL_USER=pure
+      - MYSQL_PASSWORD=pure
+    networks:
+      - pureftpd
+
+
+networks:
+  pureftpd:
+
+volumes:
+  db:
+  ftp:

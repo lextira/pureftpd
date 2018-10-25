@@ -1,12 +1,11 @@
 version: '3.4'
 
 services:
-  api:
-    image: webdevops/php-nginx:alpine-php7
+  web:
+    image: lextira/pureftpd-api
     restart: ${SERVICES_RESTART}
-    working_dir: /var/www
     depends_on:
-      - mysql
+      - db
     volumes:
       - ${SOURCE_DIR}/src:/var/www
       - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/fullchain.pem:/opt/docker/etc/nginx/ssl/server.crt
@@ -22,10 +21,10 @@ services:
       - pureftpd
 
   ftp:
-    build: ftp/.
+    build: lextira/pureftpd-ftp
     restart: ${SERVICES_RESTART}
     depends_on:
-      - mysql
+      - db
     volumes:
       - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
       - ${FTP_DATA_DIR}:/var/ftp-data
@@ -38,7 +37,7 @@ services:
       - pureftpd
 
 
-  mysql:
+  db:
     image: mariadb:10.3
     restart: ${SERVICES_RESTART}
     volumes:
@@ -73,3 +72,7 @@ services:
 
 networks:
   pureftpd:
+
+volumes:
+  db:
+  ftp:
