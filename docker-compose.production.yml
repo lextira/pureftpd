@@ -21,7 +21,7 @@ services:
       - pureftpd
 
   ftp:
-    build: lextira/pureftpd-ftp
+    image: lextira/pureftpd-mysql
     restart: ${SERVICES_RESTART}
     depends_on:
       - db
