@@ -7,7 +7,6 @@ services:
     depends_on:
       - db
     volumes:
-      - ${SOURCE_DIR}/src:/var/www
       - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/fullchain.pem:/opt/docker/etc/nginx/ssl/server.crt
       - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/privkey.pem:/opt/docker/etc/nginx/ssl/server.key
     environment:
