@@ -24,8 +24,7 @@ Adjust the `.env`-file to your environment.
 Get the initial certificates (from letsencrypt staging environment). This must succeed before you can continue!
 ```
 source .env && docker run -ti --rm -v $TLS_CERT_DIR:/etc/letsencrypt/ -p 80:80 webdevops/certbot \
-    /usr/bin/certbot certonly --staging --force-renewal --noninteractive --agree-tos \ 
-    --standalone --preferred-challenges http -d $CERTBOT_DOMAIN -m $CERTBOT_EMAIL
+/usr/bin/certbot certonly --staging --force-renewal --noninteractive --agree-tos --standalone --preferred-challenges http -d $CERTBOT_DOMAIN -m $CERTBOT_EMAIL
 ```
 
 Start the application
