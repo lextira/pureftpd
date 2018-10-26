@@ -17,11 +17,10 @@ RUN apt-get update && \
     make && make install-strip && \
 # add a dedicated group for the ftp user
     groupadd -g 1000 ftp && useradd -u 1000 -g 1000 ftp && \
-# create a dummy certificate, as the server fails without it.
+# create a dummy certificate, as the ftp server fails without it.
     mkdir -p /etc/ssl/private && \
-    openssl req -x509 -keyout /etc/ssl/private/privkey.pem -out /etc/ssl/private/fullchain.pem \
-      -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config <( \
-      printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" )
+    printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" > /etc/ssl/openssl.cnf && \
+    openssl req -x509 -keyout /etc/ssl/private/privkey.pem -out /etc/ssl/private/fullchain.pem -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config /etc/ssl/openssl.cnf
 
 # setup run/init file
 COPY run.sh /run.sh
