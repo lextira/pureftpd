@@ -16,6 +16,7 @@ services:
       - WEB_ALIAS_DOMAIN=localhost
       - APP_URL=${API_DOMAIN}
     ports:
+      - 80:80
       - 443:443
     networks:
       - pureftpd
