@@ -7,10 +7,11 @@ services:
     depends_on:
       - db
     volumes:
+      - wellknown:/var/www/public/.wellknown/
       - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/fullchain.pem:/opt/docker/etc/nginx/ssl/server.crt
       - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/privkey.pem:/opt/docker/etc/nginx/ssl/server.key
     environment:
-      - WEB_DOCUMENT_ROOT=/var/www/public
+      - WEB_DOCUMENT_ROOT=/var/www/public/
       - WEB_DOCUMENT_INDEX=index.php
       - WEB_ALIAS_DOMAIN=localhost
       - APP_URL=${API_DOMAIN}
@@ -25,8 +26,8 @@ services:
     depends_on:
       - db
     volumes:
-      - ${CONFIG_DIR}/pureftpd:/etc/pureftpd
-      - ${FTP_DATA_DIR}:/var/ftp-data
+      - ${CONFIG_DIR}/pureftpd/:/etc/pureftpd/
+      - ${FTP_DATA_DIR}:/var/ftp-data/
       - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/fullchain.pem:/etc/ssl/private/fullchain.pem
       - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/privkey.pem:/etc/ssl/private/privkey.pem
     ports:
@@ -40,7 +41,7 @@ services:
     image: mariadb:10.3
     restart: ${SERVICES_RESTART}
     volumes:
-      - ${DB_DATA_DIR}:/var/lib/mysql
+      - ${DB_DATA_DIR}:/var/lib/mysql/
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=yes
       - MYSQL_DATABASE=pureftpd
@@ -54,16 +55,17 @@ services:
     image: webdevops/certbot
     restart: "no"
     volumes: 
+      - wellknown:/var/www/public/.wellknown/
       - ${TLS_CERT_DIR}:/etc/letsencrypt/
-    ports:
-      - 80:80
     command: [      
       "/usr/bin/certbot",
       "certonly",
+      "--staging",
+      "--force-renewal",
       "--noninteractive",
       "--agree-tos",
-      "--standalone",
-      "--preferred-challenges", "http",
+      "--webroot",
+      "--webroot-path", "/var/www/public/",
       "-d ${CERTBOT_DOMAIN}",
       "-m ${CERTBOT_EMAIL}"
       ]
@@ -75,3 +77,4 @@ networks:
 volumes:
   db:
   ftp:
+  wellknown:

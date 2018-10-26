@@ -1,35 +1,40 @@
-## pureftp-api
+# pureftp-api
 
-Containers
-- api: Handles HTTP API Requests
-    
-- mysql: Hold Login Information \
-    Persistent Volume: Mysql DB
-    
-- pureftp: Handles FTP Connections \
-    Persistent Volume: User Files
+## Requirements
+* Docker: https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce
+* Docker-Compose: https://docs.docker.com/compose/install/
 
-## Installation
-*recommended: order persistent drive and attach on boot
+## Install for Production
 
-order new instance (with the persistent drive attached)
+Clone the repository ```git clone https://github.com/lextira/pureftpd.git```
 
-log in instance
-
-if the persistent disk wasn't used before, format it. maybe you need to replace /dev/sdb with another path
-`sudo mkfs.ext4 -m 0 -F -E lazy_itable_init=0,lazy_journal_init=0,discard /dev/sdb`
-
-then, mount the drive persistently in /etc/fstab
+Create a new folder and copy these files/directories from your git repo:
+Its recommended to store all these configurations as well as all uploaded data (FTP_DIR), Database-Data (DB_DIR) and Certificates (TLS_CERT_DIR) on a persistent drive to keep them save.
 ```
-# get the uuid
-sudo blkid /dev/sdb
-#add line in /etc/fstab
-UUID=[UUID_VALUE] /mnt/disks/[MNT_DIR] ext4 discard,defaults 0 2
+cp -r config-example/ /.../pureftpd/config/
+cp .env.example /.../pureftpd/.env
+cp production.docker-compose.yml /.../pureftpd/docker-compose.yml
 ```
 
+Adjust the `.env`-file to your environment. 
 
-install docker & docker compose
-https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce
+Get the initial certificates (from letsencrypt staging environment). This must succeed before you can continue!
+```source .env && docker run -ti --rm -v $TLS_CERT_DIR:/etc/letsencrypt/ -p 80:80 webdevops/certbot \
+    /usr/bin/certbot certonly --staging --force-renewal --noninteractive --agree-tos --standalone --preferred-challenges http -d $CERTBOT_DOMAIN -m $CERTBOT_EMAIL ```
 
+Start the application
+```docker-compose up -d web ftp```
+
+Update your certificates. You should create a cronjob for this, which runs at least once per week.
+```docker-compose run --rm certbot && docker-compose restart web ftp```
+ * by default, in the compose file, the "--staging" and "--force-renewal" lines are active. once you want real certificates, you must remove them. Only do this, if the challenges are successful, as otherwise you would run into rate limitations of let's encrypt very fast.
+
+Finally, create the database structure
+```docker-compose exec web /usr/bin/php artisan migrate --force```
+
+
+## Install for Development
 
 docker run --rm -v $(pwd)/src:/app composer/composer install --ignore-platform-reqs
+
+docker-compose -f docker-compose.development.yml up

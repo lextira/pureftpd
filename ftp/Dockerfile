@@ -16,7 +16,12 @@ RUN apt-get update && \
     ./configure --with-mysql --with-tls --with-altlog && \
     make && make install-strip && \
 # add a dedicated group for the ftp user
-    groupadd -g 1000 ftp && useradd -u 1000 -g 1000 ftp
+    groupadd -g 1000 ftp && useradd -u 1000 -g 1000 ftp && \
+# create a dummy certificate, as the server fails without it.
+    mkdir -p /etc/ssl/private && \
+    openssl req -x509 -keyout /etc/ssl/private/privkey.pem -out /etc/ssl/private/fullchain.pem \
+      -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config <( \
+      printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" )
 
 # setup run/init file
 COPY run.sh /run.sh
