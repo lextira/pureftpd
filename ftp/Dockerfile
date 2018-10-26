@@ -27,7 +27,7 @@ COPY run.sh /run.sh
 RUN chmod u+x /run.sh
 
 # data and config volume
-VOLUME ["/home/ftp/data", "/etc/pureftpd"]
+VOLUME ["/ftp/data", "/etc/pureftpd"]
 
 # startup
 CMD /run.sh
