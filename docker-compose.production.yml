@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   web:
-    image: lextira/pureftpd-api
+    image: lextira/pureftpd-api:v1.0.0
     restart: ${SERVICES_RESTART}
     depends_on:
       - db
@@ -22,7 +22,7 @@ services:
       - pureftpd
 
   ftp:
-    image: lextira/pureftpd-mysql
+    image: lextira/pureftpd-mysql:v1.0.0
     restart: ${SERVICES_RESTART}
     depends_on:
       - db
