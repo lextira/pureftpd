@@ -7,7 +7,7 @@ services:
     depends_on:
       - db
     volumes:
-      - wellknown:/var/www/public/.wellknown/
+      - wellknown:/var/www/public/.well-known/
       - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/fullchain.pem:/opt/docker/etc/nginx/ssl/server.crt
       - ${TLS_CERT_DIR}/live/${CERTBOT_DOMAIN}/privkey.pem:/opt/docker/etc/nginx/ssl/server.key
     environment:
@@ -56,7 +56,7 @@ services:
     image: webdevops/certbot
     restart: "no"
     volumes: 
-      - wellknown:/var/www/public/.wellknown/
+      - wellknown:/var/www/public/.well-known/
       - ${TLS_CERT_DIR}:/etc/letsencrypt/
     command: [      
       "/usr/bin/certbot",
