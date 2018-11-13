@@ -93,5 +93,5 @@ Now your server is up and running and ready to work. You can find the API-docume
 ```
 docker run --rm -v $(pwd)/src:/app composer/composer install --ignore-platform-reqs
 
-docker-compose -f docker-compose.development.yml up
+docker-compose -f development.docker-compose.yml up
 ```
