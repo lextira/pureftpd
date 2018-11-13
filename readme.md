@@ -44,6 +44,22 @@ docker-compose run --rm certbot && docker-compose restart web ftp
  * by default, in the `docker-compose.yml` file, the "--staging" and "--force-renewal" lines are active. When you are ready for certificates, you must remove these lines. But only do this, if the challenges are successful, as otherwise you would run into rate limitations of let's encrypt very fast.
 
 
+## Configure for Production
+
+### pureftpd-config
+Open `/.../pureftpd/config/pureftpd/pureftpd.conf` with a text editor and make these changes. All of the changes are optional, but you should do the recommended ones. After you made all adjustments, you need to restart the ftp-server. You can do this with:
+```
+docker-compose restart ftp
+```
+
+#### Set passive address (recommended)
+As pureftpd runs in a docker-container, it doesn't know it's public address. You can tell purefptd which public address to use with the `ForcePassiveIP`-line. Uncomment it and change it to the the public ip (the one your DNS entry points to).
+
+```
+ForcePassiveIP               1.2.3.4
+```
+
+
 ## Manage the server
 
 Once done the installation, you surely want to add some ftp accounts. This package supports accounts for multiple domains on a single server, but most of the time you will need only one.
