@@ -59,6 +59,22 @@ As pureftpd runs in a docker-container, it doesn't know it's public address. You
 ForcePassiveIP               1.2.3.4
 ```
 
+## Upgrade in Production
+It's easy to upgrade containers with short downtime. You can do it for all containers at once, but it's
+recommended to do it step by step.
+
+First, if you changed your docker-compose file to use fixed version for images, update those.
+
+Then, pull the desired version and restart the container: `docker-compose pull {service} && docker-compose up --no-deps -d {service}
+`
+
+```
+docker-compose pull web && docker-compose up --no-deps -d web
+
+docker-compose pull ftp && docker-compose up --no-deps -d ftp
+
+docker-compose pull db && docker-compose up --no-deps -d db
+```
 
 ## Manage the server
 
