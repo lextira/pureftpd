@@ -10,7 +10,7 @@ RUN apt-get update && \
     apt-get -y install libmariadb-dev && \
 # download, configure and compile pure-ftpd
     mkdir /usr/src/pure-ftpd && cd /usr/src/pure-ftpd && \
-    wget https://download.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-1.0.47.tar.gz && \
+    wget https://download.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-1.0.49.tar.gz && \
     tar xvzpf pure-ftpd-1*.tar.gz && \
     cd pure-ftpd-1* && \
     ./configure --with-mysql --with-tls --with-altlog && \
