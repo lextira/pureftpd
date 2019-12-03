@@ -14,7 +14,7 @@ class CheckHealthFeatureTest extends TestCase
     private $account;
     private $realAppURL;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

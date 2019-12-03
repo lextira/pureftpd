@@ -10,7 +10,7 @@ class CheckFTPJobTest extends TestCase
     private $ftpClient;
     private $job;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

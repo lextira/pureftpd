@@ -15,7 +15,7 @@ class ListDomainsFeatureTest extends TestCase
     private $restrictedDomain;
     private $headers;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

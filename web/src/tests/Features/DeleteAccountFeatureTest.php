@@ -18,7 +18,7 @@ class DeleteAccountFeatureTest extends TestCase
     private $restrictedAccount;
     private $headers;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

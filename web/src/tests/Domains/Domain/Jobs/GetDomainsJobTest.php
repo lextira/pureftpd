@@ -14,7 +14,7 @@ class GetDomainsJobTest extends TestCase
     private $domains;
     private $domainID;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

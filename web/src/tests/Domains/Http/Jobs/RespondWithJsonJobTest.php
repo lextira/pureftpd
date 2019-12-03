@@ -14,7 +14,7 @@ class RespondWithJsonJobTest extends TestCase
     private $responseFactory;
     private $response;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -15,7 +15,7 @@ class GetAccountsJobTest extends TestCase
     private $columns = ['id', 'login'];
     private $accounts;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

@@ -22,7 +22,7 @@ class CreateAccountFeatureTest extends TestCase
     private $domain;
     private $domainName = 'domain_name';
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

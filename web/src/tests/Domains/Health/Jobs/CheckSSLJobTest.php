@@ -11,7 +11,7 @@ class CheckSSLJobTest extends TestCase
     private $sslCertificate;
     private $job;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

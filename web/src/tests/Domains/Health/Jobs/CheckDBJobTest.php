@@ -12,7 +12,7 @@ class CheckDBJobTest extends TestCase
     private $accountRepository;
     private $job;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

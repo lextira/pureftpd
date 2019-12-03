@@ -14,7 +14,7 @@ class CreateAccountJobTest extends TestCase
     private $accountRepository;
     private $account;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

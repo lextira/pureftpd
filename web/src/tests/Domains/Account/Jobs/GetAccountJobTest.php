@@ -16,7 +16,7 @@ class GetAccountJobTest extends TestCase
     private $domainID = 321;
     private $account;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
