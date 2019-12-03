@@ -8,7 +8,7 @@ services:
     depends_on:
       - db
     volumes:
-      - ${SOURCE_DIR}/src:/var/www
+      - ${SOURCE_DIR}/web/src:/var/www
     environment:
       - WEB_DOCUMENT_ROOT=/var/www/public
       - WEB_DOCUMENT_INDEX=index.php
