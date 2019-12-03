@@ -16,7 +16,7 @@ Its recommended to store all these configurations as well as all uploaded data (
 ```
 cp -r config-example/ /.../pureftpd/config/
 cp .env.example /.../pureftpd/.env
-cp docker-compose.production.yml /.../pureftpd/docker-compose.yml
+cp production.docker-compose.yml /.../pureftpd/docker-compose.yml
 ```
 
 Adjust the `.env`-file to your environment. 
@@ -93,5 +93,5 @@ Now your server is up and running and ready to work. You can find the API-docume
 ```
 docker run --rm -v $(pwd)/src:/app composer/composer install --ignore-platform-reqs
 
-docker-compose -f docker-compose.development.yml up
+docker-compose -f development.docker-compose.yml up
 ```
