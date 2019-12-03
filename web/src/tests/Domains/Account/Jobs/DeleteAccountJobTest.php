@@ -14,7 +14,7 @@ class DeleteAccountJobTest extends TestCase
     private $accountID = 123;
     private $domainID = 321;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 

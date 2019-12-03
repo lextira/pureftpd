@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Data\Models\Domain;
 use App\Data\Models\Key;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 class FtpKeyGenerateCommand extends Command
 {
@@ -56,7 +57,7 @@ class FtpKeyGenerateCommand extends Command
 
         $key = $this->key->create([
             'domain_id' => $domain->id,
-            'token' => str_random(64),
+            'token' => Str::random(64),
             'description' => $this->argument('description')
         ]);
 
