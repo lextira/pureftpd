@@ -8,6 +8,7 @@ RUN apt-get update && \
     apt-get -y install wget build-essential && \
     apt-get -y install libssl-dev && \
     apt-get -y install libmariadb-dev && \
+    apt-get -y install rsyslog && \
 # download, configure and compile pure-ftpd
     mkdir /usr/src/pure-ftpd && cd /usr/src/pure-ftpd && \
     wget https://download.pureftpd.org/pub/pure-ftpd/releases/pure-ftpd-1.0.49.tar.gz && \
@@ -20,7 +21,15 @@ RUN apt-get update && \
 # create a dummy certificate, as the ftp server fails without it.
     mkdir -p /etc/ssl/private && \
     printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" > /etc/ssl/openssl.cnf && \
-    openssl req -x509 -keyout /etc/ssl/private/privkey.pem -out /etc/ssl/private/fullchain.pem -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config /etc/ssl/openssl.cnf
+    openssl req -x509 -keyout /etc/ssl/private/privkey.pem -out /etc/ssl/private/fullchain.pem -newkey rsa:2048 -nodes -sha256 -subj '/CN=localhost' -extensions EXT -config /etc/ssl/openssl.cnf && \
+# configure rsyslog
+	# disable kernel log as it doesn't work in containers - and it should not
+	sed -i '/imklog/s/^/#/' /etc/rsyslog.conf && \
+	# disable the template preset and set a custom one (first empty line after GLOBAL DIRECTIVES)
+	sed -i '/ActionFileDefaultTemplate/s/^/#/' /etc/rsyslog.conf &&
+	sed -i '/GLOBAL DIRECTIVES/!b;:a;n;/./ba;i$template customFormat,"%msg%\\n" \n$ActionFileDefaultTemplate customFormat' /etc/rsyslog.conf &&
+	# redirect the output to the process 1
+	ln -sf /proc/1/fd/1 /var/log/syslog
 
 # setup run/init file
 COPY run.sh /run.sh
