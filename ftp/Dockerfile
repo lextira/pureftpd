@@ -26,8 +26,8 @@ RUN apt-get update && \
 	# disable kernel log as it doesn't work in containers - and it should not
 	sed -i '/imklog/s/^/#/' /etc/rsyslog.conf && \
 	# disable the template preset and set a custom one (first empty line after GLOBAL DIRECTIVES)
-	sed -i '/ActionFileDefaultTemplate/s/^/#/' /etc/rsyslog.conf &&
-	sed -i '/GLOBAL DIRECTIVES/!b;:a;n;/./ba;i$template customFormat,"%msg%\\n" \n$ActionFileDefaultTemplate customFormat' /etc/rsyslog.conf &&
+	sed -i '/ActionFileDefaultTemplate/s/^/#/' /etc/rsyslog.conf && \
+	sed -i '/GLOBAL DIRECTIVES/!b;:a;n;/./ba;i$template customFormat,"%msg%\\n" \n$ActionFileDefaultTemplate customFormat' /etc/rsyslog.conf && \
 	# redirect the output to the process 1
 	ln -sf /proc/1/fd/1 /var/log/syslog
 
