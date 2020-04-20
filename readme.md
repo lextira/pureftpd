@@ -97,7 +97,7 @@ php artisan ftp:account:add example.com john --pass Secret
 
 You may also want an API-key, so you can manage accounts through the API. Every virtual domain can have multiple keys.
 ```
-php artisan ftp:key:generate example.com "This key is for mypage.com"
+php artisan ftp:key:generate exapmple.com "This key is for mypage.com"
 ```
 
 Now your server is up and running and ready to work. You can find the API-documentation on `your-ftp.domain.com/api/documentation`. If you prefer management trough CLI, simply type `php artisan ftp` to get the full list of commands. Help is available via `php artisan ftp:[command] --help`.
