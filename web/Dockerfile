@@ -1,7 +1,4 @@
-FROM webdevops/php-nginx:alpine-php7
-
-# tell debian we want as less interaction as possible
-ENV DEBIAN_FRONTEND noninteractive
+FROM webdevops/php-nginx:7.4-alpine
 
 # install packages
 COPY src /var/www

@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   web:
-    image: webdevops/php-nginx:alpine-php7
+    image: webdevops/php-nginx:7.4-alpine
     restart: ${SERVICES_RESTART}
     working_dir: /var/www
     depends_on:
