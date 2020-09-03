@@ -107,7 +107,8 @@ Now your server is up and running and ready to work. You can find the API-docume
 ## Install for Development
 
 ```
-docker run --rm -v $(pwd)/src:/app composer/composer install --ignore-platform-reqs
+docker run --rm -v $(pwd)/web/src:/app composer install --ignore-platform-reqs
 
-docker-compose -f development.docker-compose.yml up
+docker-compose -f development.docker-compose.yml up -d
+docker-compose -f development.docker-compose.yml exec web ash
 ```
