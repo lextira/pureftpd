@@ -1,15 +1,13 @@
-FROM webdevops/php-nginx:7.4-alpine
+FROM webdevops/php:8.0-alpine AS builder
+WORKDIR /app
+COPY src .
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+RUN composer install --no-dev
 
-# install packages
-COPY src /var/www
-
-# set the workdir
+FROM webdevops/php-nginx:8.0-alpine
 WORKDIR /var/www
-
-# install php dependencies
-RUN wget https://getcomposer.org/download/1.7.2/composer.phar && php composer.phar install && rm composer.phar && \
+COPY --from=builder /app .
 # prepare laravel app
-    cp .env.production .env && php artisan key:generate && \
+RUN cp .env.production .env && php artisan key:generate && \
     chmod -R 777 storage bootstrap/cache
-
 EXPOSE 80 443

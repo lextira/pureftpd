@@ -1,0 +1,11 @@
+src/node_modules
+src/public/hot
+src/public/storage
+src/storage/*.key
+src/vendor
+src/.git
+src/.idea
+src/.vscode
+src/npm-debug.log
+src/yarn-error.log
+src/.env
