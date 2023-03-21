@@ -61,6 +61,7 @@ services:
     command: [
       "certonly",
       "--staging",
+      "--force-renewal",
       "--noninteractive",
       "--agree-tos",
       "--webroot",
