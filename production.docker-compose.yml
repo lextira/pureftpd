@@ -53,13 +53,12 @@ services:
 
 
   certbot:
-    image: webdevops/certbot
+    image: certbot/certbot
     restart: "no"
-    volumes: 
+    volumes:
       - wellknown:/var/www/public/.well-known/
       - ${TLS_CERT_DIR}:/etc/letsencrypt/
-    command: [      
-      "/usr/bin/certbot",
+    command: [
       "certonly",
       "--staging",
       "--force-renewal",

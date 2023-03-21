@@ -1,8 +1,8 @@
 # pureftp-api
 
 ## Requirements
-* Docker: https://docs.docker.com/install/linux/docker-ce/debian/#install-docker-ce
-* Docker-Compose: https://docs.docker.com/compose/install/
+* For development: Docker Desktop (https://docs.docker.com/desktop/)
+* For production: Docker Engine (https://docs.docker.com/engine/)
 
 ## Install for Production
 
@@ -29,17 +29,17 @@ source .env && docker run -ti --rm -v $TLS_CERT_DIR:/etc/letsencrypt/ -p 80:80 w
 
 Start the application
 ```
-docker-compose up -d web ftp
+docker compose up -d web ftp
 ```
 
 Finally, create the database structure
 ```
-docker-compose exec web /usr/bin/php artisan migrate --force
+docker compose exec web /usr/bin/php artisan migrate --force
 ```
 
 Your server is now up and running. You should create a cronjob for renewing the certificates.
 ```
-docker-compose run --rm certbot && docker-compose restart web ftp
+docker compose run --rm certbot && docker compose restart web ftp
 ```
  * by default, in the `docker-compose.yml` file, the "--staging" and "--force-renewal" lines are active. When you are ready for certificates, you must remove these lines. But only do this, if the challenges are successful, as otherwise you would run into rate limitations of let's encrypt very fast.
 
@@ -49,7 +49,7 @@ docker-compose run --rm certbot && docker-compose restart web ftp
 ### pureftpd-config
 Open `/.../pureftpd/config/pureftpd/pureftpd.conf` with a text editor and make these changes. All of the changes are optional, but you should do the recommended ones. After you made all adjustments, you need to restart the ftp-server. You can do this with:
 ```
-docker-compose restart ftp
+docker compose restart ftp
 ```
 
 #### Set passive address (recommended)
@@ -63,17 +63,17 @@ ForcePassiveIP               1.2.3.4
 It's easy to upgrade containers with short downtime. You can do it for all containers at once, but it's
 recommended to do it step by step.
 
-First, if you changed your docker-compose file to use fixed version for images, update those.
+First, if you changed your docker compose file to use fixed version for images, update those.
 
-Then, pull the desired version and restart the container: `docker-compose pull {service} && docker-compose up --no-deps -d {service}
+Then, pull the desired version and restart the container: `docker compose pull {service} && docker compose up --no-deps -d {service}
 `
 
 ```
-docker-compose pull web && docker-compose up --no-deps -d web
+docker compose pull web && docker compose up --no-deps -d web
 
-docker-compose pull ftp && docker-compose up --no-deps -d ftp
+docker compose pull ftp && docker compose up --no-deps -d ftp
 
-docker-compose pull db && docker-compose up --no-deps -d db
+docker compose pull db && docker compose up --no-deps -d db
 ```
 
 ## Manage the server
@@ -82,7 +82,7 @@ Once done the installation, you surely want to add some ftp accounts. This packa
 
 For the initial setup, you need to log in the web-server, which has a CLI to manage the application.
 ```
-docker-compose exec web /bin/bash
+docker compose exec web /bin/bash
 ```
 
 Now let's create the first domain:
@@ -109,6 +109,6 @@ Now your server is up and running and ready to work. You can find the API-docume
 ```
 docker run --rm -v $(pwd)/web/src:/app composer install --ignore-platform-reqs
 
-docker-compose -f development.docker-compose.yml up -d
-docker-compose -f development.docker-compose.yml exec web ash
+docker compose -f development.docker-compose.yml up -d
+docker compose -f development.docker-compose.yml exec web ash
 ```
