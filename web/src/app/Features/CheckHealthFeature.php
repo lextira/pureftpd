@@ -5,7 +5,7 @@ use App\Domains\Health\Jobs\CheckDBJob;
 use App\Domains\Health\Jobs\CheckFTPJob;
 use App\Domains\Health\Jobs\CheckSSLJob;
 use App\Domains\Http\Jobs\RespondWithJsonJob;
-use Lucid\Foundation\Feature;
+use Lucid\Units\Feature;
 use Illuminate\Http\Request;
 
 class CheckHealthFeature extends Feature

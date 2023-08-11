@@ -6,11 +6,11 @@ use App\Data\Models\Domain;
 use App\Features\ListDomainsFeature;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Lucid\Foundation\ServesFeaturesTrait;
+use Lucid\Bus\ServesFeatures;
 
 class FtpDomainListCommand extends BaseCommand
 {
-    use ServesFeaturesTrait;
+    use ServesFeatures;
 
     /**
      * The name and signature of the console command.

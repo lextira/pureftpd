@@ -5,7 +5,7 @@ use App\Data\Criteria\DomainIDCriteria;
 use App\Data\Models\Account;
 use App\Data\Repositories\Interfaces\AccountRepository;
 use App\Http\Requests\UpdateAccountRequest;
-use Lucid\Foundation\Job;
+use Lucid\Units\Job;
 
 class UpdateAccountJob extends Job
 {

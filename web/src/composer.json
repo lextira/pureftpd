@@ -3,20 +3,25 @@
     "description": "The Laravel Framework.",
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/ksimenic/lucid"
+        }
+    ],
     "require": {
         "php": "^8.1",
         "darkaonline/l5-swagger": "^8.0",
-        "fideloper/proxy": "^4.4",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^10.0",
         "laravel/tinker": "^2.5",
-        "lucid-arch/laravel-foundation": "^8.0",
+        "lucidarch/lucid": "dev-latest",
         "nicolab/php-ftp-client": "^1.5",
         "prettus/l5-repository": "^2.7",
         "spatie/ssl-certificate": "^1.22"
     },
     "require-dev": {
-        "spatie/laravel-ignition": "^1.0",
+        "spatie/laravel-ignition": "^2.0",
         "fakerphp/faker": "^1.0",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^6.1",
@@ -59,6 +64,6 @@
         "preferred-install": "dist",
         "sort-packages": true
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

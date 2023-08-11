@@ -1,7 +1,7 @@
 <?php
 namespace App\Domains\Http\Jobs;
 
-use Lucid\Foundation\Job;
+use Lucid\Units\Job;
 use Illuminate\Routing\ResponseFactory;
 
 class RespondWithJsonJob extends Job
