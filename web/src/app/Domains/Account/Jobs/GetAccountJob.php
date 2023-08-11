@@ -4,7 +4,7 @@ namespace App\Domains\Account\Jobs;
 use App\Data\Criteria\DomainIDCriteria;
 use App\Data\Repositories\Interfaces\AccountRepository;
 use Illuminate\Http\Request;
-use Lucid\Foundation\Job;
+use Lucid\Units\Job;
 
 class GetAccountJob extends Job
 {

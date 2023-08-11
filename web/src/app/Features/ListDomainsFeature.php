@@ -5,7 +5,7 @@ use App\Domains\Account\Jobs\GetDomainIDJob;
 use App\Domains\Domain\Jobs\GetDomainsJob;
 use App\Domains\Http\Jobs\RespondWithJsonJob;
 use Illuminate\Http\Request;
-use Lucid\Foundation\Feature;
+use Lucid\Units\Feature;
 
 class ListDomainsFeature extends Feature
 {

@@ -7,11 +7,11 @@ use App\Data\Models\Domain;
 use App\Data\Repositories\Interfaces\DomainRepository;
 use App\Features\ListAccountsFeature;
 use Illuminate\Http\Request;
-use Lucid\Foundation\ServesFeaturesTrait;
+use Lucid\Bus\ServesFeatures;
 
 class FtpAccountListCommand extends BaseCommand
 {
-    use ServesFeaturesTrait;
+    use ServesFeatures;
 
     /**
      * The name and signature of the console command.

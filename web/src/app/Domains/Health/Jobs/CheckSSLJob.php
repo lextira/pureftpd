@@ -2,7 +2,7 @@
 namespace App\Domains\Health\Jobs;
 
 use Carbon\Carbon;
-use Lucid\Foundation\Job;
+use Lucid\Units\Job;
 use Spatie\SslCertificate\SslCertificate;
 
 class CheckSSLJob extends Job

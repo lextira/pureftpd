@@ -2,7 +2,7 @@
 namespace App\Domains\Account\Jobs;
 
 use Illuminate\Http\Request;
-use Lucid\Foundation\Job;
+use Lucid\Units\Job;
 use Illuminate\Contracts\Auth\Guard;
 
 class GetDomainIDJob extends Job

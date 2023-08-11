@@ -24,8 +24,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerPolicies();
-
         Auth::viaRequest('bearer-token', function($request){
             // remove "Bearer " from start
             $token = substr($request->header('Authorization'), 7);

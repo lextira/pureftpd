@@ -3,7 +3,7 @@ namespace App\Domains\Account\Jobs;
 
 use App\Data\Repositories\Interfaces\AccountRepository;
 use App\Http\Requests\CreateAccountRequest;
-use Lucid\Foundation\Job;
+use Lucid\Units\Job;
 
 class CreateAccountJob extends Job
 {

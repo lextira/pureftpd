@@ -9,11 +9,11 @@ use App\Data\Repositories\Interfaces\AccountRepository;
 use App\Features\DeleteAccountFeature;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Lucid\Foundation\ServesFeaturesTrait;
+use Lucid\Bus\ServesFeatures;
 
 class FtpAccountRmCommand extends BaseCommand
 {
-    use ServesFeaturesTrait;
+    use ServesFeatures;
 
     /**
      * The name and signature of the console command.

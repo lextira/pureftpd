@@ -7,11 +7,11 @@ use App\Data\Repositories\Interfaces\AccountRepository;
 use App\Features\UpdateAccountFeature;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Lucid\Foundation\ServesFeaturesTrait;
+use Lucid\Bus\ServesFeatures;
 
 class FtpAccountChangeCommand extends BaseCommand
 {
-    use ServesFeaturesTrait;
+    use ServesFeatures;
 
     /**
      * The name and signature of the console command.
@@ -19,7 +19,7 @@ class FtpAccountChangeCommand extends BaseCommand
      * @var string
      */
     protected $signature = 'ftp:account:change {login}
-                                                {--dir=/} 
+                                                {--dir=/}
                                                 {--desc=}
                                                 {--pass=secret}
                                                 {--status=1}';

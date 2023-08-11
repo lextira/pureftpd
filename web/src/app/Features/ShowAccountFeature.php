@@ -4,7 +4,7 @@ namespace App\Features;
 use App\Domains\Account\Jobs\GetAccountJob;
 use App\Domains\Account\Jobs\GetDomainIDJob;
 use App\Domains\Http\Jobs\RespondWithJsonJob;
-use Lucid\Foundation\Feature;
+use Lucid\Units\Feature;
 
 class ShowAccountFeature extends Feature
 {
