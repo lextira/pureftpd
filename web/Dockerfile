@@ -1,10 +1,10 @@
-FROM webdevops/php:8.0-alpine AS builder
+FROM webdevops/php:8.1-alpine AS builder
 WORKDIR /app
 COPY src .
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev
 
-FROM webdevops/php-nginx:8.0-alpine
+FROM webdevops/php-nginx:8.1-alpine
 WORKDIR /var/www
 COPY --from=builder /app .
 # prepare laravel app
