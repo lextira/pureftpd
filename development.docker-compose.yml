@@ -1,5 +1,3 @@
-version: '3.4'
-
 services:
   web:
     image: webdevops/php-nginx:8.0-alpine
@@ -49,6 +47,8 @@ services:
       - MYSQL_PASSWORD=pure
     networks:
       - pureftpd
+    ports:
+      - 3306:3306
 
 
 networks:

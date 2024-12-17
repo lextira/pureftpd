@@ -1,5 +1,3 @@
-version: '3.4'
-
 services:
   web:
     image: lextira/pureftpd-api

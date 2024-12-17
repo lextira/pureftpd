@@ -23,8 +23,8 @@ Adjust the `.env`-file to your environment.
 
 Get the initial certificates (from letsencrypt staging environment). This must succeed before you can continue!
 ```
-source .env && docker run -ti --rm -v $TLS_CERT_DIR:/etc/letsencrypt/ -p 80:80 webdevops/certbot \
-/usr/bin/certbot certonly --staging --force-renewal --noninteractive --agree-tos --standalone --preferred-challenges http -d $CERTBOT_DOMAIN -m $CERTBOT_EMAIL
+source .env && docker compose run -ti --rm -p 80:80 certbot \
+certonly --staging --force-renewal --noninteractive --agree-tos --standalone --preferred-challenges http -d $CERTBOT_DOMAIN -m $CERTBOT_EMAIL
 ```
 
 Start the application
@@ -34,7 +34,7 @@ docker compose up -d web ftp
 
 Finally, create the database structure
 ```
-docker compose exec web /usr/bin/php artisan migrate --force
+docker compose exec web php artisan migrate --force
 ```
 
 Your server is now up and running. You should create a cronjob for renewing the certificates.
