@@ -2,7 +2,7 @@
 namespace App\Domains\Health\Jobs;
 
 use App\Data\Repositories\Interfaces\AccountRepository;
-use Lucid\Foundation\Job;
+use Lucid\Units\Job;
 
 class CheckDBJob extends Job
 {

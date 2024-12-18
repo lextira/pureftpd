@@ -1,6 +1,6 @@
 services:
   web:
-    image: webdevops/php-nginx:8.0-alpine
+    image: webdevops/php-nginx:8.1-alpine
     restart: ${SERVICES_RESTART}
     working_dir: /var/www
     depends_on:

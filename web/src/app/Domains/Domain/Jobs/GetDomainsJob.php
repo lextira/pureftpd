@@ -3,7 +3,7 @@ namespace App\Domains\Domain\Jobs;
 
 use App\Data\Criteria\IDCriteria;
 use App\Data\Repositories\Interfaces\DomainRepository;
-use Lucid\Foundation\Job;
+use Lucid\Units\Job;
 
 class GetDomainsJob extends Job
 {

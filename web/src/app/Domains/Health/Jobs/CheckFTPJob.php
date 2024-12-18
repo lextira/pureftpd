@@ -1,7 +1,7 @@
 <?php
 namespace App\Domains\Health\Jobs;
 
-use Lucid\Foundation\Job;
+use Lucid\Units\Job;
 use \FtpClient\FtpClient;
 
 class CheckFTPJob extends Job

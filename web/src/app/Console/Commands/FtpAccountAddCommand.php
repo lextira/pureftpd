@@ -6,19 +6,19 @@ use App\Data\Repositories\Interfaces\DomainRepository;
 use App\Features\CreateAccountFeature;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Lucid\Foundation\ServesFeaturesTrait;
+use Lucid\Bus\ServesFeatures;
 
 class FtpAccountAddCommand extends BaseCommand
 {
-    use ServesFeaturesTrait;
+    use ServesFeatures;
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'ftp:account:add {domain} {login} 
-                                                {--dir=/} 
+    protected $signature = 'ftp:account:add {domain} {login}
+                                                {--dir=/}
                                                 {--desc=}
                                                 {--pass=secret}
                                                 {--status=1}';
